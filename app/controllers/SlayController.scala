@@ -1,6 +1,6 @@
 package controllers
 
-import javax.inject.Inject
+import javax.inject._
 import play.api.mvc._
 
 import de.htwg.se.slay.Slay
@@ -15,7 +15,7 @@ class SlayController @Inject()(cc: ControllerComponents) extends AbstractControl
   }
 
   def slay = Action {
-    Ok(slayAsText)
+    Ok(gameController.gridToString)
   }
 
 }
