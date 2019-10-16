@@ -9,9 +9,8 @@ import de.htwg.se.slay.Slay
 class SlayController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
   val gameController = Slay.controller
 
-  //Slay.main(Array.empty[String])
   def slayAsText = {
-    gameController.gridToString
+    gameController.gridToString.replaceAll(s"\\033\\[.{1,5}m","")
   }
 
   def about = Action {
