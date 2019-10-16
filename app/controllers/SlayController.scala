@@ -8,8 +8,9 @@ import de.htwg.se.slay.Slay
 @Singleton
 class SlayController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
   val gameController = Slay.controller
+
+  //Slay.main(Array.empty[String])
   def slayAsText = {
-    Slay.main(Array.empty[String])
     gameController.gridToString
   }
 
