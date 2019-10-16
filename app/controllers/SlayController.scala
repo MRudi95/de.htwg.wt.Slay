@@ -21,4 +21,15 @@ class SlayController @Inject()(cc: ControllerComponents) extends AbstractControl
     Ok(slayAsText)
   }
 
+
+  //commands
+  def buy(coord: String) = Action {
+    Slay.tui.processInput("buy " + coord)
+    Ok(slayAsText)
+  }
+
+  def mov(coord1: String, coord2: String) = Action{
+    Slay.tui.processInput("mov " + coord1 + " " + coord2)
+    Ok(slayAsText)
+  }
 }

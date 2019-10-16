@@ -10,4 +10,9 @@ GET     /about                      controllers.SlayController.about
 
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+#GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+
+GET     /buy/:coord                 controllers.SlayController.buy(coord: String)
+
+GET     /mov/:coord1/:coord2        controllers.SlayController.mov(coord1: String, coord2: String)
