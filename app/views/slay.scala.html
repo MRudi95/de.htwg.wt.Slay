@@ -7,13 +7,13 @@
         </td>
     }
     @if(ctrl.gameController.grid(idx).owner.equals(ctrl.gameController.players(1))){
-        <td bgcolor="#ffff66" width="50" height="50" align="center">
-            @(ctrl.gameController.grid(idx).gamepiece.toString)
+        <td bgcolor="#ffff00" width="50" height="50" align="center" >
+            <font size="+3" />@(ctrl.gameController.grid(idx).gamepiece.toString)
         </td>
     }
     @if(ctrl.gameController.grid(idx).owner.equals(ctrl.gameController.players(2))){
         <td bgcolor="#66ff66" width="50" height="50" align="center">
-            @(ctrl.gameController.grid(idx).gamepiece.toString)
+            <font size="+3" />@(ctrl.gameController.grid(idx).gamepiece.toString)
         </td>
     }
 }
@@ -24,11 +24,23 @@
         <meta charset="UTF-8">
         <title>Slay Game</title>
     </head>
-    <body>
-        <table border="1">
+    <body bgcolor="#262626">
+        <table border="0.5" bgcolor="black">
+            <thead>
+                <tr>
+                    <td bgcolor="#696969"/>
+                    @for(i <- 0 to ctrl.gameController.grid.colIdx){
+                        <td bgcolor="#696969" align="center">
+                            <font size="+3" color="white"/> @{var char = 65; char+= i; char.toChar}
+                        </td>
+                    }
+                </tr>
+            </thead>
             <tbody>
                 @for(rows <- 0 to ctrl.gameController.grid.rowIdx){
                     <tr>
+                        <td bgcolor="#696969" width="30" align="center" /> <font size="+3" color="white"/> @(rows+1)
+
                         @for(cols <- 0 to ctrl.gameController.grid.colIdx){
                             @cell(rows * (ctrl.gameController.grid.colIdx+1) + cols)
                         }
