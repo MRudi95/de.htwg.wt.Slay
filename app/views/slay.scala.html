@@ -1,0 +1,41 @@
+@(player1: String, player2: String, ctrl: SlayController)
+
+@cell(idx: Int) = {
+    @if(ctrl.gameController.grid(idx).owner.equals(ctrl.gameController.players(0))){
+        <td bgcolor="#00ccff" width="50" height="50" align="center">
+            @(ctrl.gameController.grid(idx).gamepiece.toString)
+        </td>
+    }
+    @if(ctrl.gameController.grid(idx).owner.equals(ctrl.gameController.players(1))){
+        <td bgcolor="#ffff66" width="50" height="50" align="center">
+            @(ctrl.gameController.grid(idx).gamepiece.toString)
+        </td>
+    }
+    @if(ctrl.gameController.grid(idx).owner.equals(ctrl.gameController.players(2))){
+        <td bgcolor="#66ff66" width="50" height="50" align="center">
+            @(ctrl.gameController.grid(idx).gamepiece.toString)
+        </td>
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Slay Game</title>
+    </head>
+    <body>
+        <table border="1">
+            <tbody>
+                @for(rows <- 0 to ctrl.gameController.grid.rowIdx){
+                    <tr>
+                        @for(cols <- 0 to ctrl.gameController.grid.colIdx){
+                            @cell(rows * (ctrl.gameController.grid.colIdx+1) + cols)
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </body>
+</html>
+

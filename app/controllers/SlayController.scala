@@ -22,6 +22,10 @@ class SlayController @Inject()(cc: ControllerComponents) extends AbstractControl
   }
 
 
+  def game = Action {
+    Ok(views.html.slay("player1", "Player2", this))
+  }
+
   //commands
   def buy(coord: String) = Action {
     Slay.tui.processInput("buy " + coord)
