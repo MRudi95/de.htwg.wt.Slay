@@ -10,7 +10,7 @@ class SlayController @Inject()(cc: ControllerComponents) extends AbstractControl
   val gameController = Slay.controller
 
   def slayAsText = {
-    gameController.gridToString.replaceAll(s"\\033\\[.{1,5}m","")
+    views.html.slay("player1", "Player2", this)
   }
 
   def about = Action {
@@ -19,11 +19,6 @@ class SlayController @Inject()(cc: ControllerComponents) extends AbstractControl
 
   def slay = Action {
     Ok(slayAsText)
-  }
-
-
-  def game = Action {
-    Ok(views.html.slay("player1", "Player2", this))
   }
 
   //commands

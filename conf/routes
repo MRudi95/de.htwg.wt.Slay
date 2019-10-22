@@ -4,7 +4,7 @@
 
 # Controller for Slay
 
-GET     /                           controllers.SlayController.game
+GET     /                           controllers.SlayController.slay
 
 GET     /about                      controllers.SlayController.about
 
