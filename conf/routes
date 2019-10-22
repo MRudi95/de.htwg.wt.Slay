@@ -16,3 +16,15 @@ GET     /about                      controllers.SlayController.about
 GET     /buy/:coord                 controllers.SlayController.buy(coord: String)
 
 GET     /mov/:coord1/:coord2        controllers.SlayController.mov(coord1: String, coord2: String)
+
+GET     /cmb/:coord1/:coord2        controllers.SlayController.cmb(coord1: String, coord2: String)
+
+GET     /plc/:coord                 controllers.SlayController.plc(coord: String)
+
+GET     /undo                       controllers.SlayController.undo
+
+GET     /redo                       controllers.SlayController.redo
+
+GET     /end                        controllers.SlayController.end
+
+GET     /ff20                       controllers.SlayController.surrender
