@@ -10,7 +10,6 @@
 @import de.htwg.se.slay.model.gamepieceComponent.Baron
 @import de.htwg.se.slay.model.gamepieceComponent.Spearman
 
-
 @cell(idx: Int) = {
     @ctrl.gameController.grid(idx).owner match {
         case x if ctrl.gameController.players(0) == x => {
@@ -29,36 +28,23 @@
 
 @gamePiece(idx: Int) = {
     @ctrl.gameController.grid(idx).gamepiece match {
-        case _:NoPiece  => {
-        }
-        case _:Tree     => {
-            <img src=@routes.Assets.versioned("images/tree.png")>
-        }
-        case _:Grave    => {
-            <img src=@routes.Assets.versioned("images/grave.png")>
-        }
-        case _:Capital  => {
-            <img src=@routes.Assets.versioned("images/capital.png")>
-        }
-        case _:Castle   => {
-            <img src=@routes.Assets.versioned("images/castle.png")>
-        }
-        case _:Peasant  => {
-            <img src=@routes.Assets.versioned("images/peasant.gif")>
-        }
-        case _:Spearman => {
-            <img src=@routes.Assets.versioned("images/spearman.gif")>
-        }
-        case _:Knight   => {
-            <img src=@routes.Assets.versioned("images/knight.gif")>
-        }
-        case _:Baron    => {
-            <img src=@routes.Assets.versioned("images/baron.gif")>
-        }
-        case _ => {
-        }
+        case _:NoPiece  => {}
+        case _:Tree     => { <img src=@routes.Assets.versioned("images/tree.png")> }
+        case _:Grave    => { <img src=@routes.Assets.versioned("images/grave.png")> }
+        case _:Capital  => { <img src=@routes.Assets.versioned("images/capital.png")> }
+        case _:Castle   => { <img src=@routes.Assets.versioned("images/castle.png")> }
+        case _:Peasant  => { <img src=@routes.Assets.versioned("images/peasant.gif")> }
+        case _:Spearman => { <img src=@routes.Assets.versioned("images/spearman.gif")> }
+        case _:Knight   => { <img src=@routes.Assets.versioned("images/knight.gif")> }
+        case _:Baron    => { <img src=@routes.Assets.versioned("images/baron.gif")> }
+        case _ => {}
     }
 }
+
+@cellIndex(rows: Int, cols: Int) = @{
+    rows * (ctrl.gameController.grid.colIdx+1) + cols
+}
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -77,14 +63,12 @@
                     }
             <tbody>
                 @for(rows <- 0 to ctrl.gameController.grid.rowIdx){
-                    <tr>
+                    <tr/>
                         <td class="gameIndexes"/> @(rows+1)
-
                         @for(cols <- 0 to ctrl.gameController.grid.colIdx){
-                            @cell(rows * (ctrl.gameController.grid.colIdx+1) + cols)
-                            <div class="gamePiece"/> @gamePiece(rows * (ctrl.gameController.grid.colIdx+1) + cols)
+                            @cell(cellIndex(rows, cols))
+                            <div class="gamePiece"/> @gamePiece(cellIndex(rows, cols))
                         }
-                    </tr>
                 }
             </tbody>
         </table>
