@@ -28,3 +28,5 @@ GET     /redo                       controllers.SlayController.redo
 GET     /end                        controllers.SlayController.end
 
 GET     /ff20                       controllers.SlayController.surrender
+
+GET    /command                    controllers.SlayController.command(comm)
