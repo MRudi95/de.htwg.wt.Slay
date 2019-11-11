@@ -25,6 +25,8 @@ GET     /undo                       controllers.SlayController.undo
 
 GET     /redo                       controllers.SlayController.redo
 
+GET     /bal/:coord                 controllers.SlayController.bal(coord: String)
+
 GET     /end                        controllers.SlayController.end
 
 GET     /ff20                       controllers.SlayController.surrender

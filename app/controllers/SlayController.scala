@@ -55,6 +55,11 @@ class SlayController @Inject()(cc: ControllerComponents) extends AbstractControl
     Ok(slayAsText)
   }
 
+  def bal(coord: String): Action[AnyContent] = Action {
+    Slay.tui.processInput( input= "bal " + coord)
+    Ok(slayAsText)
+  }
+
   def end() = Action {
     Slay.tui.processInput("end")
     Ok(slayAsText)
