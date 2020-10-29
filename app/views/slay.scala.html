@@ -18,36 +18,30 @@
     }
 }
 
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Slay Game</title>
-    </head>
-    <body bgcolor="#262626">
-        <table border="0.5" bgcolor="black">
-            <thead>
-                <tr>
-                    <td bgcolor="#696969"/>
-                    @for(i <- 0 to ctrl.gameController.grid.colIdx){
-                        <td bgcolor="#696969" align="center">
-                            <font size="+3" color="white"/> @{var char = 65; char+= i; char.toChar}
-                        </td>
-                    }
-                </tr>
-            </thead>
-            <tbody>
-                @for(rows <- 0 to ctrl.gameController.grid.rowIdx){
-                    <tr>
-                        <td bgcolor="#696969" width="30" align="center" /> <font size="+3" color="white"/> @(rows+1)
-
-                        @for(cols <- 0 to ctrl.gameController.grid.colIdx){
-                            @cell(rows * (ctrl.gameController.grid.colIdx+1) + cols)
-                        }
-                    </tr>
+@main("Slay Game"){
+    <table border="0.5" bgcolor="black">
+        <thead>
+            <tr>
+                <td bgcolor="#696969"/>
+                @for(i <- 0 to ctrl.gameController.grid.colIdx){
+                    <td bgcolor="#696969" align="center">
+                        <font size="+3" color="white"/> @{var char = 65; char+= i; char.toChar}
+                    </td>
                 }
-            </tbody>
-        </table>
-    </body>
-</html>
+            </tr>
+        </thead>
+        <tbody>
+        @for(rows <- 0 to ctrl.gameController.grid.rowIdx){
+            <tr>
+                <td bgcolor="#696969" width="30" align="center" /> <font size="+3" color="white"/> @(rows+1)
+
+                @for(cols <- 0 to ctrl.gameController.grid.colIdx){
+                    @cell(rows * (ctrl.gameController.grid.colIdx+1) + cols)
+                }
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
 
