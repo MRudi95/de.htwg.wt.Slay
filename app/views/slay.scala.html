@@ -46,33 +46,25 @@
 }
 
 
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Slay Game</title>
-        <link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/main.css")' />
-    </head>
-    <body>
-        <table class="gameTable">
-            <thead/>
-                <tr class="gameIndexes"/>
-                    <td/>
-                    @for(i <- 0 to ctrl.gameController.grid.colIdx){
-                        <td/> @{var char = 65; char+= i; char.toChar}
-                    }
-            <tbody>
-                @for(rows <- 0 to ctrl.gameController.grid.rowIdx){
-                    <tr/>
-                        <td class="gameIndexes"/> @(rows+1)
-                        @for(cols <- 0 to ctrl.gameController.grid.colIdx){
-                            @cell(cellIndex(rows, cols))
-                            <div class="gamePiece"/> @gamePiece(cellIndex(rows, cols))
-                        }
-
-                }
-            </tr>
+@main(title="Slay Game", style="main"){
+    <table class="gameTable">
+        <thead/>
+        <tr class="gameIndexes"/>
+        <td/>
+        @for(i <- 0 to ctrl.gameController.grid.colIdx){
+            <td/> @{var char = 65; char+= i; char.toChar}
         }
+        <tbody>
+            @for(rows <- 0 to ctrl.gameController.grid.rowIdx){
+                <tr/>
+                <td class="gameIndexes"/> @(rows+1)
+                @for(cols <- 0 to ctrl.gameController.grid.colIdx){
+                    @cell(cellIndex(rows, cols))
+                    <div class="gamePiece"/> @gamePiece(cellIndex(rows, cols))
+                }
+
+            }
+        </tr>
         </tbody>
     </table>
 }
