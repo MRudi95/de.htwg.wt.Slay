@@ -1,0 +1,71 @@
+@(player1: String, player2: String, ctrl: SlayController)
+
+@import de.htwg.se.slay.model.gamepieceComponent.NoPiece
+@import de.htwg.se.slay.model.gamepieceComponent.Tree
+@import de.htwg.se.slay.model.gamepieceComponent.Grave
+@import de.htwg.se.slay.model.gamepieceComponent.Castle
+@import de.htwg.se.slay.model.gamepieceComponent.Knight
+@import de.htwg.se.slay.model.gamepieceComponent.Capital
+@import de.htwg.se.slay.model.gamepieceComponent.Peasant
+@import de.htwg.se.slay.model.gamepieceComponent.Baron
+@import de.htwg.se.slay.model.gamepieceComponent.Spearman
+
+@cell(idx: Int) = {
+    @ctrl.gameController.grid(idx).owner match {
+        case x if ctrl.gameController.players(0) == x => {
+            <td class="cellP0"/>
+        }
+        case x if ctrl.gameController.players(1) == x => {
+            <td class="cellP1"/>
+        }
+        case x if ctrl.gameController.players(2) == x => {
+            <td class="cellP2"/>
+        }
+        case _ => {
+        }
+    }
+}
+
+@gamePiece(idx: Int) = {
+    @ctrl.gameController.grid(idx).gamepiece match {
+        case _:NoPiece  => {}
+        case _:Tree     => { <img src=@routes.Assets.versioned("images/tree.png")> }
+        case _:Grave    => { <img src=@routes.Assets.versioned("images/grave.png")> }
+        case _:Capital  => { <img src=@routes.Assets.versioned("images/capital.png")> }
+        case _:Castle   => { <img src=@routes.Assets.versioned("images/castle.png")> }
+        case _:Peasant  => { <img src=@routes.Assets.versioned("images/peasant.gif")> }
+        case _:Spearman => { <img src=@routes.Assets.versioned("images/spearman.gif")> }
+        case _:Knight   => { <img src=@routes.Assets.versioned("images/knight.gif")> }
+        case _:Baron    => { <img src=@routes.Assets.versioned("images/baron.gif")> }
+        case _ => {}
+    }
+}
+
+@cellIndex(rows: Int, cols: Int) = @{
+    rows * (ctrl.gameController.grid.colIdx+1) + cols
+}
+
+
+@main(title="Slay Game", style="main"){
+    <table class="gameTable">
+        <thead/>
+        <tr class="gameIndexes"/>
+        <td/>
+        @for(i <- 0 to ctrl.gameController.grid.colIdx){
+            <td/> @{var char = 65; char+= i; char.toChar}
+        }
+        <tbody>
+            @for(rows <- 0 to ctrl.gameController.grid.rowIdx){
+                <tr/>
+                <td class="gameIndexes"/> @(rows+1)
+                @for(cols <- 0 to ctrl.gameController.grid.colIdx){
+                    @cell(cellIndex(rows, cols))
+                    <div class="gamePiece"/> @gamePiece(cellIndex(rows, cols))
+                }
+
+            }
+        </tbody>
+    </table>
+}
+
+
