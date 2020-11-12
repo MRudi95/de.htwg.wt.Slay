@@ -79,7 +79,7 @@
             <tr class="gameIndexes bg-dark"/>
             <td/>
             @for(i <- 0 to ctrl.gameController.grid.colIdx){
-                <td/> @{var char = 65; char+= i; char.toChar}
+                <td class="gameLetterIndexes"/> @{var char = 65; char+= i; char.toChar}
             }
             <tbody>
             @for(rows <- 0 to ctrl.gameController.grid.rowIdx){
