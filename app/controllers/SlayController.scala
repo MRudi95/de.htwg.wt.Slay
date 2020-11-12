@@ -3,10 +3,11 @@ package controllers
 import javax.inject._
 import play.api.mvc._
 import de.htwg.se.slay.Slay
-import de.htwg.se.slay.controller.controllerComponent.{BalanceEvent, CombineErrorEvent, Event, GamePieceErrorEvent, MoneyErrorEvent, MovableErrorEvent, MoveErrorEvent, MovedErrorEvent, OwnerErrorEvent, RedoErrorEvent, UndoErrorEvent}
+import de.htwg.se.slay.controller.controllerComponent._
+import de.htwg.se.slay.util.Observer
 
 @Singleton
-class SlayController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
+class SlayController @Inject()(cc: ControllerComponents) extends AbstractController(cc) with Observer {
   val gameController = Slay.controller
   gameController.add(this)
   var message :String = _
