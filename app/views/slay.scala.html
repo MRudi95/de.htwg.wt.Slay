@@ -47,25 +47,76 @@
 
 
 @main(title="Slay Game", style="main"){
-    <table class="gameTable">
-        <thead/>
-        <tr class="gameIndexes"/>
-        <td/>
-        @for(i <- 0 to ctrl.gameController.grid.colIdx){
-            <td/> @{var char = 65; char+= i; char.toChar}
-        }
-        <tbody>
+    <nav class="navbar navbar-expand navbar-dark bg-dark">
+        <a class="navbar-brand" href="">HTWG Slay</a>
+
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/about">About</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/undo">Undo</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/redo">Redo</a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav">
+            <li>
+                <a class="nav-link" href="http://www.windowsgames.co.uk/slay.html">Original</a>
+            </li>
+            <li>
+                <a class="nav-link" href="https://github.com/MRudi95/de.htwg.wt.Slay">GitHub</a>
+            </li>
+        </ul>
+    </nav>
+
+
+    <div class="pagecontainer">
+        <table class="gameTable">
+            <thead/>
+            <tr class="gameIndexes bg-dark"/>
+            <td/>
+            @for(i <- 0 to ctrl.gameController.grid.colIdx){
+                <td/> @{var char = 65; char+= i; char.toChar}
+            }
+            <tbody>
             @for(rows <- 0 to ctrl.gameController.grid.rowIdx){
                 <tr/>
-                <td class="gameIndexes"/> @(rows+1)
+                <td class="gameIndexes bg-dark"/> @(rows+1)
                 @for(cols <- 0 to ctrl.gameController.grid.colIdx){
                     @cell(cellIndex(rows, cols))
                     <div class="gamePiece"/> @gamePiece(cellIndex(rows, cols))
                 }
-
             }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+
+        <div class="d-flex justify-content-between p-3">
+            <div class="col-4">
+                <form method="get" action="/command">
+                    <input type="text" class="form-control" placeholder="Command" name="comm">
+                    <input type="submit" hidden>
+                </form>
+            </div>
+
+            @if(ctrl.gameController.state == 1){
+                <div class="alert alert-warning col-md-auto" role="alert">
+                    It is your turn @ctrl.getPlayerturn() !
+                </div>
+            }else{
+                <div class="alert alert-success col-md-auto" role="alert">
+                    It is your turn @ctrl.getPlayerturn() !
+                </div>
+            }
+
+        </div>
+
+        <div class="alert alert-danger mr-3 ml-3" role="alert">
+        @message
+        </div>
+    </div>
 }
 
 
