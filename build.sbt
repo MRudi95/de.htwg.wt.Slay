@@ -1,4 +1,4 @@
-name := "Slay"
+name := "de.htwg.wt.Slay-master"
 
 version := "0.1"
 

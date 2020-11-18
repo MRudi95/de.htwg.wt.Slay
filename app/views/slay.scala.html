@@ -10,6 +10,22 @@
 @import de.htwg.se.slay.model.gamepieceComponent.Baron
 @import de.htwg.se.slay.model.gamepieceComponent.Spearman
 
+@item(idx: Int) = {
+@ctrl.gameController.grid(idx).owner match {
+    case x if ctrl.gameController.players(0) == x => {
+        <div class="grid-item c0">
+    }
+    case x if ctrl.gameController.players(1) == x => {
+        <div class="grid-item c1">
+    }
+    case x if ctrl.gameController.players(2) == x => {
+        <div class="grid-item c2">
+    }
+    case _ => {
+    }
+}
+}
+
 @cell(idx: Int) = {
 @ctrl.gameController.grid(idx).owner match {
     case x if ctrl.gameController.players(0) == x => {
@@ -29,9 +45,9 @@
 @gamePiece(idx: Int) = {
 @ctrl.gameController.grid(idx).gamepiece match {
     case _:NoPiece  => {}
-    case _:Tree     => { <img src=@routes.Assets.versioned("images/tree.png")> }
+    case _:Tree     => { <i class="fas fa-tree"></i> }
     case _:Grave    => { <img src=@routes.Assets.versioned("images/grave.png")> }
-    case _:Capital  => { <img src=@routes.Assets.versioned("images/capital.png")> }
+    case _:Capital  => { <i class="fas fa-home"></i> }
     case _:Castle   => { <img src=@routes.Assets.versioned("images/castle.png")> }
     case _:Peasant  => { <img src=@routes.Assets.versioned("images/peasant.gif")> }
     case _:Spearman => { <img src=@routes.Assets.versioned("images/spearman.gif")> }
@@ -47,34 +63,56 @@
 
 
 @main(title="Slay Game", style="main"){
-    <nav class="navbar navbar-expand navbar-dark bg-dark">
-        <a class="navbar-brand" href="">HTWG Slay</a>
-
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/about">About</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/undo">Undo</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/redo">Redo</a>
-            </li>
-        </ul>
-
-        <ul class="navbar-nav">
-            <li>
-                <a class="nav-link" href="http://www.windowsgames.co.uk/slay.html">Original</a>
-            </li>
-            <li>
-                <a class="nav-link" href="https://github.com/MRudi95/de.htwg.wt.Slay">GitHub</a>
-            </li>
-        </ul>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Slay</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/about">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/undo">Undo</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/redo">Redo</a>
+                </li>
+                <li>
+                    <a class="nav-link" href="http://www.windowsgames.co.uk/slay.html">Original</a>
+                </li>
+                <li>
+                    <a class="nav-link" href="https://github.com/MRudi95/de.htwg.wt.Slay">GitHub</a>
+                </li>
+            </ul>
+        </div>
     </nav>
 
-
     <div class="pagecontainer">
-        <table class="gameTable">
+        @if(ctrl.gameController.state == 1){
+            <div class="alert alert-warning col-md-auto" role="alert">
+                It is your turn @ctrl.getPlayerturn() !
+            </div>
+        }else{
+            <div class="alert alert-success col-md-auto" role="alert">
+                It is your turn @ctrl.getPlayerturn() !
+            </div>
+        }
+        <div class="grid-container">
+            @for(i <- 0 to ctrl.gameController.grid.colIdx){
+                <div class="grid-item c0" style="background: #343a40; color: #fff;">@{var char = 65; char+= i; char.toChar}</div>
+            }
+        @for(rows <- 0 to ctrl.gameController.grid.rowIdx){
+            @for(cols <- 0 to ctrl.gameController.grid.colIdx){
+                    @item(cellIndex(rows, cols))
+                    @gamePiece(cellIndex(rows, cols))
+                    @(rows+1)
+                </div> <!-- this is dirty! -->
+            }
+        }
+        </div>
+        <!--<table class="gameTable">
             <thead/>
             <tr class="gameIndexes bg-dark"/>
             <td/>
@@ -91,30 +129,15 @@
                 }
             }
             </tbody>
-        </table>
+        </table>-->
 
-        <div class="d-flex justify-content-between p-3">
-            <div class="col-4">
+        <div style="margin-top: 1rem;">
+
                 <form method="get" action="/command">
-                    <input type="text" class="form-control" placeholder="Command" name="comm">
+                    <input type="text" class="form-control" placeholder="Enter a command .." name="comm">
                     <input type="submit" hidden>
                 </form>
-            </div>
 
-            @if(ctrl.gameController.state == 1){
-                <div class="alert alert-warning col-md-auto" role="alert">
-                    It is your turn @ctrl.getPlayerturn() !
-                </div>
-            }else{
-                <div class="alert alert-success col-md-auto" role="alert">
-                    It is your turn @ctrl.getPlayerturn() !
-                </div>
-            }
-
-        </div>
-
-        <div class="alert alert-danger mr-3 ml-3" role="alert">
-        @message
         </div>
     </div>
 }

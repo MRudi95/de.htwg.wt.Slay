@@ -3,22 +3,26 @@ body{
   background: #262626;
 }
 
-@media (min-width: 850px) {
-  .pagecontainer{
-    width: 850px;
-    margin: auto;
-    margin-top: 1em;
-  }
+.pagecontainer {
+    margin: 2rem auto;
+    width: 1280px;
 }
 
-@media (min-width: 1000px) {
-  .pagecontainer{
-    width: 1000px;
-    margin: auto;
-    margin-top: 1em;
-  }
+@media only screen and (max-width:620px) {
+  /* For mobile phones: */
+    .pagecontainer {
+        width: 100%;
+        padding: 1rem;
+    }
 }
 
+@media only screen and (max-width:1200px) {
+  /* For mobile phones: */
+    .pagecontainer {
+        width: 100%;
+        padding: 1rem;
+    }
+}
 
 .inputForm{
   width: 50%;
@@ -72,10 +76,6 @@ body{
   background: @colorP2;
 }
 
-.gamePiece{
-
-}
-
 .aboutTable{
   background: black;
 }
@@ -104,3 +104,35 @@ h4{
   font-style: italic;
   margin-left: 5%;
 }
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(16, auto);
+}
+
+.grid-item {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid #343a40;
+    padding: 1rem;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.grid-item .fas {
+    color: #333 !important;
+}
+div.c0 {
+    background-color: #00ccff;
+    color: #1e7b93;
+}
+
+div.c1 {
+    background-color: #ffff00;
+    color: #c6c638;
+}
+
+div.c2 {
+    background-color: #66ff66;
+    color: #2cb02c;
+}
+
