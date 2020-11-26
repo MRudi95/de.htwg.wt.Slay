@@ -58,7 +58,7 @@ $(function() {
       $('#coord1').hide();
       coord1set = false;
     }
-    if ($('#coord0').text() == $('#coord1').text()) {
+    if ($('#coord0').text() === $('#coord1').text()) {
       $('#coord1').hide();
       coord1set = false;
     }
@@ -105,7 +105,7 @@ $(function() {
   })
   $('#surrenderBtn').click(function() {
     if (confirm('Are you sure you want to surrender?')) {
-      window.location = '/ff20'
+      window.location = '/ff20';
     }
   })
 
