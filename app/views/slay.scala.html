@@ -11,19 +11,19 @@
 @import de.htwg.se.slay.model.gamepieceComponent.Spearman
 
 @item(idx: Int) = {
-@ctrl.gameController.grid(idx).owner match {
-    case x if ctrl.gameController.players(0) == x => {
-        <div class="grid-item c0">
+    @ctrl.gameController.grid(idx).owner match {
+        case x if ctrl.gameController.players(0) == x => {
+            <div id="@idx" class="grid-item c0">
+        }
+        case x if ctrl.gameController.players(1) == x => {
+            <div id="@idx" class="grid-item c1">
+        }
+        case x if ctrl.gameController.players(2) == x => {
+            <div id="@idx" class="grid-item c2">
+        }
+        case _ => {
+        }
     }
-    case x if ctrl.gameController.players(1) == x => {
-        <div class="grid-item c1">
-    }
-    case x if ctrl.gameController.players(2) == x => {
-        <div class="grid-item c2">
-    }
-    case _ => {
-    }
-}
 }
 
 @cell(idx: Int) = {
