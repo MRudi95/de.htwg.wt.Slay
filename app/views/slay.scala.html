@@ -90,15 +90,6 @@
     </nav>
 
     <div class="pagecontainer">
-        @if(ctrl.gameController.state == 1){
-            <div class="alert alert-warning col-md-auto" role="alert">
-                It is your turn @ctrl.getPlayerturn() !
-            </div>
-        }else{
-            <div class="alert alert-success col-md-auto" role="alert">
-                It is your turn @ctrl.getPlayerturn() !
-            </div>
-        }
         <div class="grid-container">
             @for(i <- 0 to ctrl.gameController.grid.colIdx){
                 <div class="grid-item c0" style="background: #343a40; color: #fff;">@{var char = 65; char+= i; char.toChar}</div>
@@ -141,6 +132,9 @@
         </div>
 
         <div id="gameMsg" class="alert alert-info mr-3 ml-3" role="alert"/>
+
+        @*dirty*@
+        <script src="@routes.Assets.versioned("javascripts/slay.js")" ></script>
     </div>
 }
 
