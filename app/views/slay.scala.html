@@ -110,6 +110,25 @@
         }
         </div>
 
+        <div class="d-flex justify-content-between p-3">
+            <div class="col-1">
+                <button id="coord0" class="coordButton col-16"></button>
+            </div>
+            <div class="col-1">
+                <button id="coord1" class="coordButton col-16"></button>
+            </div>
+            <div class="col-7"></div>
+            @if(ctrl.gameController.state == 1){
+                <div class="alert alert-warning col-md-auto" role="alert">
+                    It is your turn @ctrl.getPlayerturn() !
+                </div>
+            }else{
+                <div class="alert alert-success col-md-auto" role="alert">
+                    It is your turn @ctrl.getPlayerturn() !
+                </div>
+            }
+        </div>
+
         <div id="gameBtnPanel">
             <div class="col-4"></div>
             <button id="buyBtn" class="gameButton">Buy</button>
