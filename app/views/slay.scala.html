@@ -13,13 +13,13 @@
 @item(idx: Int) = {
     @ctrl.gameController.grid(idx).owner match {
         case x if ctrl.gameController.players(0) == x => {
-            <div id="@idx" class="grid-item c0">
+            <div id="@idx" class="grid-item c0"> @gamePiece(idx) </div>
         }
         case x if ctrl.gameController.players(1) == x => {
-            <div id="@idx" class="grid-item c1">
+            <div id="@idx" class="grid-item c1"> @gamePiece(idx) </div>
         }
         case x if ctrl.gameController.players(2) == x => {
-            <div id="@idx" class="grid-item c2">
+            <div id="@idx" class="grid-item c2"> @gamePiece(idx) </div>
         }
         case _ => {
         }
@@ -105,31 +105,10 @@
             }
         @for(rows <- 0 to ctrl.gameController.grid.rowIdx){
             @for(cols <- 0 to ctrl.gameController.grid.colIdx){
-                    @item(cellIndex(rows, cols))
-                    @gamePiece(cellIndex(rows, cols))
-                    @(rows+1)
-                </div> <!-- this is dirty! -->
+                @item(cellIndex(rows, cols))
             }
         }
         </div>
-        <!--<table class="gameTable">
-            <thead/>
-            <tr class="gameIndexes bg-dark"/>
-            <td/>
-            @for(i <- 0 to ctrl.gameController.grid.colIdx){
-                <td class="gameLetterIndexes"/> @{var char = 65; char+= i; char.toChar}
-            }
-            <tbody>
-            @for(rows <- 0 to ctrl.gameController.grid.rowIdx){
-                <tr/>
-                <td class="gameIndexes bg-dark"/> @(rows+1)
-                @for(cols <- 0 to ctrl.gameController.grid.colIdx){
-                    @cell(cellIndex(rows, cols))
-                    <div class="gamePiece"/> @gamePiece(cellIndex(rows, cols))
-                }
-            }
-            </tbody>
-        </table>-->
 
         <div id="gameBtnPanel">
             <div class="col-4"></div>
@@ -142,14 +121,6 @@
             <button id="surrenderBtn" class="gameButton">Surrender</button>
         </div>
 
-        <div style="margin-top: 1rem;">
-
-                <form method="get" action="/command">
-                    <input type="text" class="form-control" placeholder="Enter a command .." name="comm">
-                    <input type="submit" hidden>
-                </form>
-
-        </div>
     </div>
 }
 

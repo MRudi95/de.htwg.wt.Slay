@@ -74,8 +74,8 @@ $(function() {
 
   const pieceMap = new Map([
     [' ', ' '],
-    ['T', '<img src="/assets/images/tree.png">'],
-    ['C', '<img src="/assets/images/capital.png">'],
+    ['T', '<i class="fas fa-tree"></i>'],
+    ['C', '<i class="fas fa-home"></i>'],
     ['B', '<img src="/assets/images/castle.png">'],
     ['G', '<img src="/assets/images/grave.png">'],
     ['1', '<img src="/assets/images/peasant.gif">'],
@@ -90,7 +90,7 @@ $(function() {
         if(key === "fields"){
           //update fields
           for(i in val){
-            document.getElementById(i.toString()).className = "cellP" + val[i].owner + " border border-light clickable"
+            document.getElementById(i.toString()).className = "grid-item c" + val[i].owner
             document.getElementById(i.toString()).innerHTML = pieceMap.get(val[i].gamepiece)
           }
         } else if(key === "message"){
