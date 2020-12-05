@@ -13,13 +13,13 @@
 @item(idx: Int) = {
     @ctrl.gameController.grid(idx).owner match {
         case x if ctrl.gameController.players(0) == x => {
-            <div id="@idx" class="grid-item c0"> @gamePiece(idx) </div>
+            <div id="@idx" class="clickable grid-item c0"> @gamePiece(idx) </div>
         }
         case x if ctrl.gameController.players(1) == x => {
-            <div id="@idx" class="grid-item c1"> @gamePiece(idx) </div>
+            <div id="@idx" class="clickable grid-item c1"> @gamePiece(idx) </div>
         }
         case x if ctrl.gameController.players(2) == x => {
-            <div id="@idx" class="grid-item c2"> @gamePiece(idx) </div>
+            <div id="@idx" class="clickable grid-item c2"> @gamePiece(idx) </div>
         }
         case _ => {
         }
