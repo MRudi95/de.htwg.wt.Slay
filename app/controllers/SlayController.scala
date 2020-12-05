@@ -4,16 +4,36 @@ import javax.inject._
 import play.api.mvc._
 import de.htwg.se.slay.Slay
 import de.htwg.se.slay.controller.controllerComponent._
+import de.htwg.se.slay.model.fileIOComponent.fileIoJSONimpl.FileIO
 import de.htwg.se.slay.util.Observer
+import play.api.libs.json.Json
 
 @Singleton
 class SlayController @Inject()(cc: ControllerComponents) extends AbstractController(cc) with Observer {
   val gameController = Slay.controller
   gameController.add(this)
   var message :String = _
+  var updateEvent: Event = _
+  val jsonIO = new FileIO
 
   def slayAsText = {
     views.html.slay(this, message)
+  }
+
+  def checksuccess: Boolean = {
+    updateEvent match {
+      case _: SuccessEvent => true
+      case _ => false
+    }
+  }
+
+  def jsonUpdate = {
+    if (checksuccess)
+      Ok(jsonIO.gridToJson(gameController.grid, gameController.players))
+    else
+      Ok(Json.obj(
+        "message" -> message,
+      ))
   }
 
   def about = Action {
@@ -27,32 +47,38 @@ class SlayController @Inject()(cc: ControllerComponents) extends AbstractControl
   //commands
   def buy(coord: String) = Action {
     Slay.tui.processInput("buy " + coord)
-    Ok(slayAsText)
+    //Ok(slayAsText)
+    jsonUpdate
   }
 
   def mov(coord1: String, coord2: String) = Action{
     Slay.tui.processInput("mov " + coord1 + " " + coord2)
-    Ok(slayAsText)
+    //Ok(slayAsText)
+    jsonUpdate
   }
 
   def cmb(coord1: String, coord2: String) = Action{
     Slay.tui.processInput("cmb " + coord1 + " " + coord2)
-    Ok(slayAsText)
+    //Ok(slayAsText)
+    jsonUpdate
   }
 
   def plc(coord: String) = Action {
     Slay.tui.processInput("plc " + coord)
-    Ok(slayAsText)
+    //Ok(slayAsText)
+    jsonUpdate
   }
 
   def undo() = Action {
     Slay.tui.processInput("undo")
     Ok(slayAsText)
+    //brauch noch javascript wie die anderen
   }
 
   def redo() = Action {
     Slay.tui.processInput("redo")
     Ok(slayAsText)
+    //brauch noch javascript wie die anderen
   }
 
   def end() = Action {
@@ -77,6 +103,7 @@ class SlayController @Inject()(cc: ControllerComponents) extends AbstractControl
 
 
   override def update(e: Event): Boolean = {
+    updateEvent = e
     e match{
       case _: MoneyErrorEvent =>
         message = "Not enough Money!"; true
