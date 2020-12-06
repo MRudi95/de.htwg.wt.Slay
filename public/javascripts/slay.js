@@ -34,6 +34,15 @@ function letter(l) {
   }
 }
 
+const colSize = parseInt(document.getElementById("col").innerText);
+const rowSize = parseInt(document.getElementById("row").innerText);
+
+function getIndex(idnumber){
+  let colidx = letter(idnumber % (colSize+1) + 1);
+  let rowIdx = Math.floor(idnumber / (colSize+1)) + 1
+  return colidx + rowIdx;
+}
+
 // bools for commands to check
 let coord0set = false;
 let coord1set = false;
@@ -45,13 +54,13 @@ $(function() {
   // Coord selection by clicking on game table
   $('.clickable').click(function(){
     if (!coord0set) {
-      $('#coord0').text(letter(this.cellIndex) + this.parentNode.rowIndex).show();
+      $('#coord0').text(getIndex(parseInt(this.id))).show();
       coord0set = true;
     } else if (!coord1set) {
-      $('#coord1').text(letter(this.cellIndex) + this.parentNode.rowIndex).show();
+      $('#coord1').text(getIndex(parseInt(this.id))).show();
       coord1set = true;
     } else {
-      $('#coord0').text(letter(this.cellIndex) + this.parentNode.rowIndex).show();
+      $('#coord0').text(getIndex(parseInt(this.id))).show();
       coord0set = true;
       $('#coord1').hide();
       coord1set = false;
@@ -90,7 +99,7 @@ $(function() {
         if(key === "fields"){
           //update fields
           for(i in val){
-            document.getElementById(i.toString()).className = "grid-item c" + val[i].owner
+            document.getElementById(i.toString()).className = "clickable grid-item c" + val[i].owner
             document.getElementById(i.toString()).innerHTML = pieceMap.get(val[i].gamepiece)
           }
         } else if(key === "message"){
