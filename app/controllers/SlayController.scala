@@ -7,9 +7,12 @@ import de.htwg.se.slay.controller.controllerComponent._
 import de.htwg.se.slay.model.fileIOComponent.fileIoJSONimpl.FileIO
 import de.htwg.se.slay.util.Observer
 import play.api.libs.json.Json
+import play.api.libs.streams.ActorFlow
+import akka.actor._
+import akka.stream.Materializer
 
 @Singleton
-class SlayController @Inject()(cc: ControllerComponents) extends AbstractController(cc) with Observer {
+class SlayController @Inject()(cc: ControllerComponents) (implicit system: ActorSystem, mat: Materializer) extends AbstractController(cc) with Observer {
   val gameController = Slay.controller
   gameController.add(this)
   var message :String = _
@@ -99,6 +102,29 @@ class SlayController @Inject()(cc: ControllerComponents) extends AbstractControl
 
   def getPlayerturn() = {
     gameController.players(gameController.state).name
+  }
+
+  def socket = WebSocket.accept[String, String] { request =>
+    ActorFlow.actorRef { out =>
+      println("Connect received")
+      MyWebSocketActor.props(out)
+    }
+  }
+
+  object MyWebSocketActor {
+    def props(out: ActorRef) = {
+      println("Object created")
+      Props(new MyWebSocketActor(out))
+    }
+  }
+
+  class MyWebSocketActor(out: ActorRef) extends Actor {
+    println("Class created")
+    def receive = {
+      case msg: String =>
+        out ! ("I received your message: " + msg)
+        println("Received message "+ msg)
+    }
   }
 
 

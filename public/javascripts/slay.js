@@ -2,6 +2,39 @@ if (window.console) {
   console.log("Welcome to your Play application's JavaScript!");
 }
 
+// websocket-stuff
+
+function connectWebSocket() {
+  console.log("Connecting to Websocket");
+  var websocket = new WebSocket("ws://localhost:9000/websocket");
+  console.log("Connected to Websocket");
+
+  websocket.onopen = function(event) {
+    console.log("Trying to connect to Server");
+    websocket.send("Trying to connect to Server");
+  }
+
+  websocket.onclose = function () {
+    console.log('Connection Closed!');
+  };
+
+  websocket.onerror = function (error) {
+    console.log('Error Occured: ' + error);
+  };
+
+  websocket.onmessage = function (e) {
+    if (typeof e.data === "string") {
+      console.log('String message received: ' + e.data);
+    }
+    else if (e.data instanceof ArrayBuffer) {
+      console.log('ArrayBuffer received: ' + e.data);
+    }
+    else if (e.data instanceof Blob) {
+      console.log('Blob received: ' + e.data);
+    }
+  };
+}
+
 // number to corresponding letter
 function letter(l) {
   switch (l) {
@@ -47,7 +80,7 @@ function getIndex(idnumber){
 let coord0set = false;
 let coord1set = false;
 
-$(function() {
+$( document ).ready(function() {
   // Hide coord buttons on start
   $('.coordButton').hide();
 
@@ -148,5 +181,5 @@ $(function() {
       window.location = '/ff20';
     }
   })
-
+  connectWebSocket()
 });
