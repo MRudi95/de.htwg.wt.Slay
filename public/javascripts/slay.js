@@ -28,6 +28,17 @@ function connectWebSocket() {
       $.each(JSON.parse(e.data), function(key, val){
         if(key === "fields"){
           //update fields
+          const pieceMap = new Map([
+            [' ', ' '],
+            ['T', '<i class="fas fa-tree"></i>'],
+            ['C', '<i class="fas fa-home"></i>'],
+            ['B', '<img src="/assets/images/castle.png">'],
+            ['G', '<img src="/assets/images/grave.png">'],
+            ['1', '<img src="/assets/images/peasant.gif">'],
+            ['2', '<img src="/assets/images/spearman.gif">'],
+            ['3', '<img src="/assets/images/knight.gif">'],
+            ['4', '<img src="/assets/images/baron.gif">'],
+          ]);
           for(i in val){
             document.getElementById(i.toString()).className = "clickable grid-item c" + val[i].owner
             document.getElementById(i.toString()).innerHTML = pieceMap.get(val[i].gamepiece)
