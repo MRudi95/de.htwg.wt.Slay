@@ -72,6 +72,11 @@ class SlayController @Inject()(cc: ControllerComponents) (implicit system: Actor
     jsonUpdate
   }
 
+  def bal(coord: String) = Action {
+    Slay.tui.processInput("bal " + coord)
+    jsonUpdate
+  }
+
   def undo() = Action {
     Slay.tui.processInput("undo")
     Ok(slayAsText)
@@ -134,7 +139,7 @@ class SlayController @Inject()(cc: ControllerComponents) (implicit system: Actor
       case _: MoneyErrorEvent =>
         message = "Not enough Money!"; true
       case b: BalanceEvent =>
-        message = "Balance: " + b.bal + "\tIncome: " + b.inc + "\tArmyCost: " + b.cost; true
+        message = "Balance: " + b.bal + " Income: " + b.inc + " ArmyCost: " + b.cost; true
       case _: OwnerErrorEvent =>
         message = "You are not the Owner of this!"; true
       case _: GamePieceErrorEvent =>

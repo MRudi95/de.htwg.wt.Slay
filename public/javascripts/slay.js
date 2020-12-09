@@ -6,7 +6,7 @@ if (window.console) {
 
 function connectWebSocket() {
   console.log("Connecting to Websocket");
-  var websocket = new WebSocket("ws://localhost:9000/websocket");
+  let websocket = new WebSocket("ws://localhost:9000/websocket");
   console.log("Connected to Websocket");
 
   websocket.onopen = function(event) {
@@ -170,7 +170,8 @@ $( document ).ready(function() {
   })
   $('#balanceBtn').click(function() {
     if (coord0set && !coord1set) {
-      window.location = '/bal/' + $('#coord0').text();
+      //window.location = '/bal/' + $('#coord0').text();
+      command('/bal/' + $('#coord0').text());
     }
   })
   $('#endTurnBtn').click(function() {

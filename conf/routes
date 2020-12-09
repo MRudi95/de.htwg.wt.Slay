@@ -23,6 +23,8 @@ GET     /cmb/:coord1/:coord2        controllers.SlayController.cmb(coord1: Strin
 
 GET     /plc/:coord                 controllers.SlayController.plc(coord: String)
 
+GET     /bal/:coord                 controllers.SlayController.bal(coord: String)
+
 GET     /undo                       controllers.SlayController.undo
 
 GET     /redo                       controllers.SlayController.redo
