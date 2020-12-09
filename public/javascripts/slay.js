@@ -25,12 +25,18 @@ function connectWebSocket() {
   websocket.onmessage = function (e) {
     if (typeof e.data === "string") {
       console.log('String message received: ' + e.data);
-    }
-    else if (e.data instanceof ArrayBuffer) {
-      console.log('ArrayBuffer received: ' + e.data);
-    }
-    else if (e.data instanceof Blob) {
-      console.log('Blob received: ' + e.data);
+      $.each(JSON.parse(e.data), function(key, val){
+        if(key === "fields"){
+          //update fields
+          for(i in val){
+            document.getElementById(i.toString()).className = "clickable grid-item c" + val[i].owner
+            document.getElementById(i.toString()).innerHTML = pieceMap.get(val[i].gamepiece)
+          }
+        } else if(key === "message"){
+          //error message
+          document.getElementById("gameMsg").innerText = val;
+        }
+      });
     }
   };
 }

@@ -111,25 +111,49 @@ class SlayController @Inject()(cc: ControllerComponents) (implicit system: Actor
 
   def socket = WebSocket.accept[String, String] { request =>
     ActorFlow.actorRef { out =>
-      println("Connect received")
       MyWebSocketActor.props(out)
     }
   }
 
   object MyWebSocketActor {
     def props(out: ActorRef) = {
-      println("Object created")
       Props(new MyWebSocketActor(out))
     }
   }
 
-  class MyWebSocketActor(out: ActorRef) extends Actor {
-    println("Class created")
+  class MyWebSocketActor(out: ActorRef) extends Actor with Observer {
+    gameController.add(this)
+
     def receive = {
       case msg: String =>
         out ! ("I received your message: " + msg)
-        println("Received message "+ msg)
     }
+
+    val jsonIO = new FileIO
+    override def update(e: Event): Boolean = {
+      updateEvent = e
+      e match{
+        case _: SuccessEvent => out ! jsonIO.gridToJson(gameController.grid, gameController.players).toString(); true
+        case _: MoneyErrorEvent => out ! Json.obj( "message" -> "Not enough Money!").toString(); true
+        case b: BalanceEvent =>
+          val msg = "Balance: " + b.bal + " Income: " + b.inc + " ArmyCost: " + b.cost
+          out ! Json.obj( "message" -> msg).toString(); true
+        case _: OwnerErrorEvent => out ! Json.obj( "message" -> "You are not the Owner of this!").toString(); true
+        case _: GamePieceErrorEvent => out ! Json.obj( "message" -> "There already is a GamePiece there!").toString(); true
+        case _: CombineErrorEvent => out ! Json.obj( "message" -> "Can't combine those Units!").toString(); true
+        case m: MoveErrorEvent =>
+          val msg = "Can't move there! " + m.reason
+          out ! Json.obj( "message" -> msg).toString(); true
+        case _: MovableErrorEvent => out ! Json.obj( "message" -> "This Unit is not movable!").toString(); true
+        case _: MovedErrorEvent => out ! Json.obj( "message" -> "This Unit has already moved this turn!").toString(); true
+        case _: UndoErrorEvent => out ! Json.obj( "message" -> "Nothing to undo!").toString(); true
+        case _: RedoErrorEvent => out ! Json.obj( "message" -> "Nothing to redo!").toString(); true
+        case _ => false
+      }
+    }
+
+
+
   }
 
 
