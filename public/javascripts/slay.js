@@ -24,7 +24,7 @@ function connectWebSocket() {
 
   websocket.onmessage = function (e) {
     if (typeof e.data === "string") {
-      console.log('String message received: ' + e.data);
+      //console.log('String message received: ' + e.data);
       $.each(JSON.parse(e.data), function(key, val){
         if(key === "fields"){
           //update fields

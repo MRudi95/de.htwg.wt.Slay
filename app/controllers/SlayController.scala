@@ -151,9 +151,6 @@ class SlayController @Inject()(cc: ControllerComponents) (implicit system: Actor
         case _ => false
       }
     }
-
-
-
   }
 
 
