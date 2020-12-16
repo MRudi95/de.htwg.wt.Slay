@@ -47,6 +47,9 @@
 
 
 @main(title="Slay Game", style="main"){
+    <script src="@routes.Assets.versioned("javascripts/vue.js")"> </script>
+    <script src="@routes.Assets.versioned("javascripts/slayVue.js")"> </script>
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Slay</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,9 +76,12 @@
         </div>
     </nav>
 
-    <div class="pagecontainer">
+    <div id="app" class="pagecontainer">
         <div id="col" style="display: none">@ctrl.gameController.grid.colIdx</div>
         <div id="row" style="display: none">@ctrl.gameController.grid.rowIdx</div>
+        <div id="firstgrid" style="display: none">@ctrl.getJson()</div>
+
+        @*
         <div class="grid-container">
             @for(i <- 0 to ctrl.gameController.grid.colIdx){
                 <div class="grid-item c0" style="background: #343a40; color: #fff;">@{var char = 65; char+= i; char.toChar}</div>
@@ -86,6 +92,8 @@
                 }
             }
         </div>
+        *@
+        <gamefield></gamefield>
 
         <div class="d-flex justify-content-between p-3">
             <div class="col-1">
@@ -108,19 +116,20 @@
 
         <div id="gameBtnPanel">
             <div class="col-4"></div>
-            <button id="buyBtn" class="gameButton">Buy</button>
-            <button id="combineBtn" class="gameButton">Combine</button>
-            <button id="moveBtn" class="gameButton">Move</button>
-            <button id="castleBtn" class="gameButton">Castle</button>
-            <button id="balanceBtn" class="gameButton">Balance</button>
-            <button id="endTurnBtn" class="gameButton">End Turn</button>
-            <button id="surrenderBtn" class="gameButton">Surrender</button>
+            <button v-on:click="buy" class="gameButton">Buy</button>
+            <button v-on:click="combine" class="gameButton">Combine</button>
+            <button v-on:click="move" class="gameButton">Move</button>
+            <button v-on:click="castle" class="gameButton">Castle</button>
+            <button v-on:click="balance" class="gameButton">Balance</button>
+            <button v-on:click="endturn" class="gameButton">End Turn</button>
+            <button v-on:click="surrender" class="gameButton">Surrender</button>
         </div>
 
         <div id="gameMsg" class="alert alert-info mr-3 ml-3" role="alert">yeet</div>
 
         @*dirty*@
-        <script src="@routes.Assets.versioned("javascripts/slay.js")" ></script>
+        @*<script src="@routes.Assets.versioned("javascripts/slay.js")" ></script>*@
+
     </div>
 }
 

@@ -104,11 +104,16 @@ class SlayController @Inject()(cc: ControllerComponents) (implicit system: Actor
     Ok(slayAsText)
   }
 
+  def getJson() = Action{
+    Ok(jsonIO.gridToJson(gameController.grid, gameController.players))
+  }
 
   def getPlayerturn() = {
     gameController.players(gameController.state).name
   }
 
+
+  //websocket
   def socket = WebSocket.accept[String, String] { request =>
     ActorFlow.actorRef { out =>
       MyWebSocketActor.props(out)
