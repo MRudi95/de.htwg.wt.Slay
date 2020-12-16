@@ -163,31 +163,26 @@ $( document ).ready(function() {
   // Command buttons
   $('#buyBtn').click(function() {
     if (coord0set && !coord1set) {
-      //window.location = '/buy/' + $('#coord0').text();
       command('/buy/' + $('#coord0').text())
     }
   })
   $('#combineBtn').click(function() {
     if (coord0set && coord1set) {
-      //window.location = '/cmb/' + $('#coord0').text() + '/' + $('#coord1').text();
       command('/cmb/' + $('#coord0').text() + '/' + $('#coord1').text())
     }
   })
   $('#moveBtn').click(function() {
     if (coord0set && coord1set) {
-      //window.location = '/mov/' + $('#coord0').text() + '/' + $('#coord1').text();
       command('/mov/' + $('#coord0').text() + '/' + $('#coord1').text())
     }
   })
   $('#castleBtn').click(function() {
     if (coord0set && !coord1set) {
-      //window.location = '/plc/' + $('#coord0').text();
       command('/plc/' + $('#coord0').text())
     }
   })
   $('#balanceBtn').click(function() {
     if (coord0set && !coord1set) {
-      //window.location = '/bal/' + $('#coord0').text();
       command('/bal/' + $('#coord0').text());
     }
   })
