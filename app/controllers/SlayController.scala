@@ -50,25 +50,21 @@ class SlayController @Inject()(cc: ControllerComponents) (implicit system: Actor
   //commands
   def buy(coord: String) = Action {
     Slay.tui.processInput("buy " + coord)
-    //Ok(slayAsText)
     jsonUpdate
   }
 
   def mov(coord1: String, coord2: String) = Action{
     Slay.tui.processInput("mov " + coord1 + " " + coord2)
-    //Ok(slayAsText)
     jsonUpdate
   }
 
   def cmb(coord1: String, coord2: String) = Action{
     Slay.tui.processInput("cmb " + coord1 + " " + coord2)
-    //Ok(slayAsText)
     jsonUpdate
   }
 
   def plc(coord: String) = Action {
     Slay.tui.processInput("plc " + coord)
-    //Ok(slayAsText)
     jsonUpdate
   }
 
@@ -91,7 +87,9 @@ class SlayController @Inject()(cc: ControllerComponents) (implicit system: Actor
 
   def end() = Action {
     Slay.tui.processInput("end")
-    Ok(slayAsText)
+    Ok(Json.obj(
+      "end" -> getPlayerturn(),
+    ))
   }
 
   def surrender() = Action {
@@ -133,7 +131,6 @@ class SlayController @Inject()(cc: ControllerComponents) (implicit system: Actor
       case msg: String =>
         out ! ("I received your message: " + msg)
     }
-
     val jsonIO = new FileIO
     override def update(e: Event): Boolean = {
       updateEvent = e
@@ -153,6 +150,7 @@ class SlayController @Inject()(cc: ControllerComponents) (implicit system: Actor
         case _: MovedErrorEvent => out ! Json.obj( "message" -> "This Unit has already moved this turn!").toString(); true
         case _: UndoErrorEvent => out ! Json.obj( "message" -> "Nothing to undo!").toString(); true
         case _: RedoErrorEvent => out ! Json.obj( "message" -> "Nothing to redo!").toString(); true
+        case _: PlayerEvent => out ! Json.obj("end" -> getPlayerturn()).toString(); true
         case _ => false
       }
     }
