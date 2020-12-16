@@ -13,7 +13,7 @@
 @item(idx: Int) = {
     @ctrl.gameController.grid(idx).owner match {
         case x if ctrl.gameController.players(0) == x => {
-            <div id="@idx" xml:id="" class="clickable grid-item c0"> @gamePiece(idx) </div>
+            <div id="@idx" class="clickable grid-item c0"> @gamePiece(idx) </div>
         }
         case x if ctrl.gameController.players(1) == x => {
             <div id="@idx" class="clickable grid-item c1"> @gamePiece(idx) </div>
@@ -24,22 +24,6 @@
         case _ => {
         }
     }
-}
-
-@cell(idx: Int) = {
-@ctrl.gameController.grid(idx).owner match {
-    case x if ctrl.gameController.players(0) == x => {
-        <td class="cellP0 border border-light"/>
-    }
-    case x if ctrl.gameController.players(1) == x => {
-        <td class="cellP1 border border-light"/>
-    }
-    case x if ctrl.gameController.players(2) == x => {
-        <td class="cellP2 border border-light"/>
-    }
-    case _ => {
-    }
-}
 }
 
 @gamePiece(idx: Int) = {
@@ -96,11 +80,11 @@
             @for(i <- 0 to ctrl.gameController.grid.colIdx){
                 <div class="grid-item c0" style="background: #343a40; color: #fff;">@{var char = 65; char+= i; char.toChar}</div>
             }
-        @for(rows <- 0 to ctrl.gameController.grid.rowIdx){
-            @for(cols <- 0 to ctrl.gameController.grid.colIdx){
-                @item(cellIndex(rows, cols))
+            @for(rows <- 0 to ctrl.gameController.grid.rowIdx){
+                @for(cols <- 0 to ctrl.gameController.grid.colIdx){
+                    @item(cellIndex(rows, cols))
+                }
             }
-        }
         </div>
 
         <div class="d-flex justify-content-between p-3">
