@@ -163,9 +163,6 @@ $(document).ready(function (){
 
     //coordbuttons
     setupCoordButtons();
-
-    //quick fix for having to click "end turn" twice at the beginning
-    command('/end');
 })
 
 Vue.component('gamefield', {

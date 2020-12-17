@@ -15,6 +15,9 @@ import akka.stream.Materializer
 class SlayController @Inject()(cc: ControllerComponents) (implicit system: ActorSystem, mat: Materializer) extends AbstractController(cc) with Observer {
   val gameController = Slay.controller
   gameController.add(this)
+  //quick fix for having to click "end turn" twice at the beginning
+  Slay.tui.processInput("end")
+
   var message :String = _
   var updateEvent: Event = _
   val jsonIO = new FileIO

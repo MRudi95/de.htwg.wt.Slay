@@ -31,6 +31,7 @@
     </nav>
 
     <div id="app" class="pagecontainer">
+
         <gamefield></gamefield>
 
         <div class="d-flex justify-content-between p-3">
@@ -41,15 +42,7 @@
                 <button id="coord1" class="coordButton col-16"></button>
             </div>
             <div class="col-7"></div>
-            @if(ctrl.gameController.state == 1){
-                <div id="playerturn" class="alert alert-warning col-md-auto" role="alert">
-                    It is your turn @ctrl.getPlayerturn() !
-                </div>
-            }else{
-                <div id="playerturn" class="alert alert-success col-md-auto" role="alert">
-                    It is your turn @ctrl.getPlayerturn() !
-                </div>
-            }
+            <div id="playerturn" class="alert alert-warning col-md-auto" role="alert">It is your turn Player 1!</div>
         </div>
 
         <div id="gameBtnPanel">
@@ -63,7 +56,7 @@
             <button v-on:click="surrender" class="gameButton">Surrender</button>
         </div>
 
-        <div id="gameMsg" class="alert alert-info mr-3 ml-3" role="alert">yeet</div>
+        <div id="gameMsg" class="alert alert-info mr-3 ml-3" role="alert"></div>
     </div>
 }
 
