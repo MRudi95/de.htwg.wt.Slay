@@ -30,9 +30,9 @@ function connectWebSocket() {
                 } else if(key === "end"){
                     document.getElementById("playerturn").innerText = "It is your turn " + val + "!";
                     if(val === "Player 1"){
-                        document.getElementById("playerturn").className = "alert alert-warning col-md-auto";
+                        //document.getElementById("playerturn").className = "alert alert-warning col-md-auto";
                     } else {
-                        document.getElementById("playerturn").className = "alert alert-success col-md-auto";
+                       // document.getElementById("playerturn").className = "alert alert-success col-md-auto";
                     }
                 }
             });
