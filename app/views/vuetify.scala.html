@@ -1,0 +1,70 @@
+@(ctrl: SlayController, message: String)
+<v-app>
+    <v-app-bar dark flat>
+        <a class="navbar-brand" href="#">Slay</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/about">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/undo">Undo</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/redo">Redo</a>
+                </li>
+                <li>
+                    <a class="nav-link" href="http://www.windowsgames.co.uk/slay.html">Original</a>
+                </li>
+                <li>
+                    <a class="nav-link" href="https://github.com/MRudi95/de.htwg.wt.Slay">GitHub</a>
+                </li>
+            </ul>
+        </div>
+    </v-app-bar>
+    <v-main>
+        <v-container fluid>
+            <template>
+
+                <div id="app" class="pagecontainer">
+                    <gamefield></gamefield>
+
+                    <div class="d-flex justify-content-between p-3">
+                        <div class="col-1">
+                            <button id="coord0" class="coordButton col-16"></button>
+                        </div>
+                        <div class="col-1">
+                            <button id="coord1" class="coordButton col-16"></button>
+                        </div>
+                        <div class="col-7"></div>
+                        @if(ctrl.gameController.state == 1){
+                            <div id="playerturn" class="alert alert-warning col-md-auto" role="alert">
+                                It is your turn @ctrl.getPlayerturn() !
+                            </div>
+                        }else{
+                            <div id="playerturn" class="alert alert-success col-md-auto" role="alert">
+                                It is your turn @ctrl.getPlayerturn() !
+                            </div>
+                        }
+                    </div>
+
+                    <div id="gameBtnPanel">
+                        <div class="col-4"></div>
+                        <button v-on:click="buy" class="gameButton">Buy</button>
+                        <button v-on:click="combine" class="gameButton">Combine</button>
+                        <button v-on:click="move" class="gameButton">Move</button>
+                        <button v-on:click="castle" class="gameButton">Castle</button>
+                        <button v-on:click="balance" class="gameButton">Balance</button>
+                        <button v-on:click="endturn" class="gameButton">End Turn</button>
+                        <button v-on:click="surrender" class="gameButton">Surrender</button>
+                    </div>
+
+                    <div id="gameMsg" class="alert alert-info mr-3 ml-3" role="alert">yeet</div>
+                </div>
+            </template>
+        </v-container>
+    </v-main>
+</v-app>

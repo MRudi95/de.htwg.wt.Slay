@@ -122,17 +122,17 @@ function getIndex(idnumber){
     return colidx + rowIdx;
 }
 
+
 $(document).ready(function (){
     console.log("Document ready");
     //get first grid synchronously
     loadJSON();
 
     //initialize vue
-    let app = new Vue({
-        el: '#app',
-        data: {
 
-        },
+    new Vue({
+        el: '#app',
+        vuetify: new Vuetify(),
         methods: {
             buy: function (){
                 if (coord0set && !coord1set) command('/buy/' + $('#coord0').text())
@@ -158,17 +158,19 @@ $(document).ready(function (){
         }
     })
 
+
     //websocket
     connectWebSocket();
 
     //coordbuttons
     setupCoordButtons();
+
 })
 
 Vue.component('gamefield', {
     template:`
         <div class="grid-container">
-            <div v-for="idx in colSize" class="grid-item c0" style="background: #343a40; color: #fff;">{{colIdx(idx)}}</div>            
+            <div v-for="idx in colSize" class="grid-item c0" style="background: #343a40; color: #fff;">{{colIdx(idx)}}</div>
             <div v-for="(value, index) in grid" :id="index" :class="[playerClass(value.owner)]" class="clickable grid-item" v-html="gamepiece(value.gamepiece)"></div>
         </div>
     `,
@@ -188,3 +190,7 @@ Vue.component('gamefield', {
         }
     }
 })
+
+
+
+
