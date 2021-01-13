@@ -67,9 +67,6 @@ const pieceMap = new Map([
     ['2', 'mdi-account-multiple'], // <v-icon>mdi-account-multiple</v-icon>
     ['3', 'mdi-account-group'], // <v-icon>mdi-account-group</v-icon>
     ['4', 'mdi-alien'], // <v-icon>mdi-alien</v-icon>
-    ['tree', 'https://cdn.discordapp.com/attachments/766231770445512715/786534037024014336/ryan-o-connor-tileable-grass.png'],
-    ['desert', 'https://cdn.discordapp.com/attachments/766231770445512715/786534077545185300/dbwm528-78b11079-6ce9-4182-9166-d6c07af7d494.png'],
-    ['water', 'https://cdn.discordapp.com/attachments/766231770445512715/786534055566376990/f1a7ed42b092b013089dafb1774ef2ea.png']
     // [' ', ' '],
     // ['T', '<i class="fas fa-tree"></i>'], // <v-icon>mdi-pine-tree</v-icon>
     // ['C', '<i class="fas fa-home"></i>'], // <v-icon>mdi-home</v-icon>
@@ -80,11 +77,18 @@ const pieceMap = new Map([
     // ['3', '<img src="/assets/images/knight.gif">'], // <v-icon>mdi-account-group</v-icon>
     // ['4', '<img src="/assets/images/baron.gif">'], // <v-icon>mdi-alien</v-icon>
 ]);
+
+const fieldMap = new Map([
+    [2, 'https://cdn.discordapp.com/attachments/766231770445512715/786534037024014336/ryan-o-connor-tileable-grass.png'],
+    [1, 'https://cdn.discordapp.com/attachments/766231770445512715/786534077545185300/dbwm528-78b11079-6ce9-4182-9166-d6c07af7d494.png'],
+    [0, 'https://cdn.discordapp.com/attachments/766231770445512715/786534055566376990/f1a7ed42b092b013089dafb1774ef2ea.png']
+]);
 function updateGrid(grid){
     for(i in grid){
         document.getElementById(i.toString()).className = "clickable grid-item c" + grid[i].owner
         //document.getElementById(i.toString()).innerHTML = pieceMap.get(grid[i].gamepiece)
         document.getElementById(i.toString()).children[0].className = "v-icon notranslate material-icons theme--light mdi " + pieceMap.get(grid[i].gamepiece)
+        document.getElementById(i.toString()).children[1].children[1].style.backgroundImage = "url(" + fieldMap.get(grid[i].owner) + ")"
     }
 }
 function command(commandstring){
@@ -186,11 +190,16 @@ $(document).ready(function (){
 
 })
 //v-html="gamepiece(value.gamepiece)"
+//https://cdn.discordapp.com/attachments/766231770445512715/786534055566376990/f1a7ed42b092b013089dafb1774ef2ea.png
+//fieldImage(value.owner)
 Vue.component('gamefield', {
     template:`
         <div class="grid-container">
             <div v-for="idx in colSize" class="grid-item c0" style="background: #343a40; color: #fff;">{{colIdx(idx)}}</div>
-            <div v-for="(value, index) in grid" :id="index" :class="[playerClass(value.owner)]" class="clickable "><v-img max-width="80" src="{{"></v-img><v-icon>{{gamepiece(value.gamepiece)}}</v-icon></div>
+            <div v-for="(value, index) in grid" :id="index" :class="[playerClass(value.owner)]" class="clickable ">
+                <v-icon>{{gamepiece(value.gamepiece)}}</v-icon>
+                <v-img max-width="80" :src="fieldImage(value.owner)"></v-img>
+            </div>
         </div>
     `,
     data: function (){
@@ -205,6 +214,9 @@ Vue.component('gamefield', {
             },
             gamepiece: function (gp){
                 return pieceMap.get(gp);
+            },
+            fieldImage: function (field){
+                return fieldMap.get(field);
             }
         }
     }
