@@ -67,6 +67,9 @@ const pieceMap = new Map([
     ['2', 'mdi-account-multiple'], // <v-icon>mdi-account-multiple</v-icon>
     ['3', 'mdi-account-group'], // <v-icon>mdi-account-group</v-icon>
     ['4', 'mdi-alien'], // <v-icon>mdi-alien</v-icon>
+    ['tree', 'https://cdn.discordapp.com/attachments/766231770445512715/786534037024014336/ryan-o-connor-tileable-grass.png'],
+    ['desert', 'https://cdn.discordapp.com/attachments/766231770445512715/786534077545185300/dbwm528-78b11079-6ce9-4182-9166-d6c07af7d494.png'],
+    ['water', 'https://cdn.discordapp.com/attachments/766231770445512715/786534055566376990/f1a7ed42b092b013089dafb1774ef2ea.png']
     // [' ', ' '],
     // ['T', '<i class="fas fa-tree"></i>'], // <v-icon>mdi-pine-tree</v-icon>
     // ['C', '<i class="fas fa-home"></i>'], // <v-icon>mdi-home</v-icon>
@@ -187,7 +190,7 @@ Vue.component('gamefield', {
     template:`
         <div class="grid-container">
             <div v-for="idx in colSize" class="grid-item c0" style="background: #343a40; color: #fff;">{{colIdx(idx)}}</div>
-            <div v-for="(value, index) in grid" :id="index" :class="[playerClass(value.owner)]" class="clickable grid-item" ><v-icon>{{gamepiece(value.gamepiece)}}</v-icon></div>
+            <div v-for="(value, index) in grid" :id="index" :class="[playerClass(value.owner)]" class="clickable "><v-img max-width="80" src="{{"></v-img><v-icon>{{gamepiece(value.gamepiece)}}</v-icon></div>
         </div>
     `,
     data: function (){
