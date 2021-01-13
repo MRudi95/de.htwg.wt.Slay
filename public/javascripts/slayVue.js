@@ -77,7 +77,6 @@ const pieceMap = new Map([
     // ['3', '<img src="/assets/images/knight.gif">'], // <v-icon>mdi-account-group</v-icon>
     // ['4', '<img src="/assets/images/baron.gif">'], // <v-icon>mdi-alien</v-icon>
 ]);
-
 const fieldMap = new Map([
     [2, 'https://cdn.discordapp.com/attachments/766231770445512715/786534037024014336/ryan-o-connor-tileable-grass.png'],
     [1, 'https://cdn.discordapp.com/attachments/766231770445512715/786534077545185300/dbwm528-78b11079-6ce9-4182-9166-d6c07af7d494.png'],
@@ -85,12 +84,23 @@ const fieldMap = new Map([
 ]);
 function updateGrid(grid){
     for(i in grid){
-        document.getElementById(i.toString()).className = "clickable grid-item c" + grid[i].owner
+        document.getElementById(i.toString()).className = "clickable c" + grid[i].owner // grid-item
         //document.getElementById(i.toString()).innerHTML = pieceMap.get(grid[i].gamepiece)
-        document.getElementById(i.toString()).children[0].className = "v-icon notranslate material-icons theme--light mdi " + pieceMap.get(grid[i].gamepiece)
-        document.getElementById(i.toString()).children[1].children[1].style.backgroundImage = "url(" + fieldMap.get(grid[i].owner) + ")"
+        //document.getElementById(i.toString()).children[0].className = "v-icon notranslate material-icons theme--light mdi " + pieceMap.get(grid[i].gamepiece)
+        document.getElementById(i.toString()).children[0].children[2].children[0].className = "v-icon notranslate material-icons theme--light mdi " + pieceMap.get(grid[i].gamepiece) + " " + gamepieceColor(grid[i].gamepiece, grid[i].owner)
+        document.getElementById(i.toString()).children[0].children[1].style.backgroundImage = "url(" + fieldMap.get(grid[i].owner) + ")"
+        //document.getElementById(i.toString()).children[1].src = fieldMap.get(grid[i].owner)
     }
 }
+
+function gamepieceColor(gamepiece, owner, setup=false){
+    if(setup) {
+        return "blue-grey lighten-4"
+    }else{
+        return "blue-grey--text text--lighten-4" //.replace(" ", "--text text--")
+    }
+}
+
 function command(commandstring){
     $.ajax(commandstring);
 }
@@ -189,16 +199,19 @@ $(document).ready(function (){
     setupCoordButtons();
 
 })
-//v-html="gamepiece(value.gamepiece)"
-//https://cdn.discordapp.com/attachments/766231770445512715/786534055566376990/f1a7ed42b092b013089dafb1774ef2ea.png
-//fieldImage(value.owner)
+//<v-img max-width="80" :src="fieldImage(value.owner)"></v-img>
+//<v-icon style="position: relative; z-index: 5">{{gamepiece(value.gamepiece)}}</v-icon>
+//<img style='height: 100%; width: 100%; object-fit: contain;' :src="fieldImage(value.owner)"/>
 Vue.component('gamefield', {
     template:`
         <div class="grid-container">
             <div v-for="idx in colSize" class="grid-item c0" style="background: #343a40; color: #fff;">{{colIdx(idx)}}</div>
             <div v-for="(value, index) in grid" :id="index" :class="[playerClass(value.owner)]" class="clickable ">
-                <v-icon>{{gamepiece(value.gamepiece)}}</v-icon>
-                <v-img max-width="80" :src="fieldImage(value.owner)"></v-img>
+                <v-img max-width="80" :src="fieldImage(value.owner)" style="display: flex; align-items: center;">
+                    <v-icon :color="gpColor(value.gamepiece, value.owner)" x-large style="display: flex; justify-content: center;">
+                        {{gamepiece(value.gamepiece)}}
+                    </v-icon>
+                </v-img>
             </div>
         </div>
     `,
@@ -215,9 +228,13 @@ Vue.component('gamefield', {
             gamepiece: function (gp){
                 return pieceMap.get(gp);
             },
+            gpColor: function(gp, owner){
+                return gamepieceColor(gp, owner, true);
+            },
             fieldImage: function (field){
                 return fieldMap.get(field);
-            }
+            },
+
         }
     }
 })
