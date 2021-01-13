@@ -59,19 +59,29 @@ function loadJSON(){
 
 const pieceMap = new Map([
     [' ', ' '],
-    ['T', '<i class="fas fa-tree"></i>'],
-    ['C', '<i class="fas fa-home"></i>'],
-    ['B', '<img src="/assets/images/castle.png">'],
-    ['G', '<img src="/assets/images/grave.png">'],
-    ['1', '<img src="/assets/images/peasant.gif">'],
-    ['2', '<img src="/assets/images/spearman.gif">'],
-    ['3', '<img src="/assets/images/knight.gif">'],
-    ['4', '<img src="/assets/images/baron.gif">'],
+    ['T', 'mdi-pine-tree'], // <v-icon>mdi-pine-tree</v-icon>
+    ['C', 'mdi-home'], // <v-icon>mdi-home</v-icon>
+    ['B', 'mdi-castle'], // <v-icon>mdi-castle</v-icon>
+    ['G', 'mdi-grave-stone'], // <v-icon>mdi-grave-stone</v-icon>
+    ['1', 'mdi-account'], // <v-icon>mdi-account</v-icon>
+    ['2', 'mdi-account-multiple'], // <v-icon>mdi-account-multiple</v-icon>
+    ['3', 'mdi-account-group'], // <v-icon>mdi-account-group</v-icon>
+    ['4', 'mdi-alien'], // <v-icon>mdi-alien</v-icon>
+    // [' ', ' '],
+    // ['T', '<i class="fas fa-tree"></i>'], // <v-icon>mdi-pine-tree</v-icon>
+    // ['C', '<i class="fas fa-home"></i>'], // <v-icon>mdi-home</v-icon>
+    // ['B', '<img src="/assets/images/castle.png">'], // <v-icon>mdi-castle</v-icon>
+    // ['G', '<img src="/assets/images/grave.png">'], // <v-icon>mdi-grave-stone</v-icon>
+    // ['1', '<img src="/assets/images/peasant.gif">'], // <v-icon>mdi-account</v-icon>
+    // ['2', '<img src="/assets/images/spearman.gif">'], // <v-icon>mdi-account-multiple</v-icon>
+    // ['3', '<img src="/assets/images/knight.gif">'], // <v-icon>mdi-account-group</v-icon>
+    // ['4', '<img src="/assets/images/baron.gif">'], // <v-icon>mdi-alien</v-icon>
 ]);
 function updateGrid(grid){
     for(i in grid){
         document.getElementById(i.toString()).className = "clickable grid-item c" + grid[i].owner
-        document.getElementById(i.toString()).innerHTML = pieceMap.get(grid[i].gamepiece)
+        //document.getElementById(i.toString()).innerHTML = pieceMap.get(grid[i].gamepiece)
+        document.getElementById(i.toString()).children[0].className = "v-icon notranslate material-icons theme--light mdi " + pieceMap.get(grid[i].gamepiece)
     }
 }
 function command(commandstring){
@@ -166,12 +176,12 @@ $(document).ready(function (){
     setupCoordButtons();
 
 })
-
+//v-html="gamepiece(value.gamepiece)"
 Vue.component('gamefield', {
     template:`
         <div class="grid-container">
             <div v-for="idx in colSize" class="grid-item c0" style="background: #343a40; color: #fff;">{{colIdx(idx)}}</div>
-            <div v-for="(value, index) in grid" :id="index" :class="[playerClass(value.owner)]" class="clickable grid-item" v-html="gamepiece(value.gamepiece)"></div>
+            <div v-for="(value, index) in grid" :id="index" :class="[playerClass(value.owner)]" class="clickable grid-item" ><v-icon>{{gamepiece(value.gamepiece)}}</v-icon></div>
         </div>
     `,
     data: function (){
