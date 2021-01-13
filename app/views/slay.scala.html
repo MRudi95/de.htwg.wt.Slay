@@ -16,7 +16,7 @@
         >
 
             <template v-slot:prepend>
-                <v-list-item two-line>
+                <v-list-item two-line style="padding-top:2rem;">
                     <v-list-item-avatar>
                         <img src="https://www.designtagebuch.de/wp-content/uploads/mediathek//2016/12/htwg_markenzeichen-1.png">
                     </v-list-item-avatar>
@@ -33,38 +33,30 @@
 
 
             <v-list-item link to="">
-                <v-list-item-icon>
-                    <v-icon>mdi-help</v-icon>
-                </v-list-item-icon>
+
                 <v-list-item-content>
-                    <v-list-item-title>About</v-list-item-title>
+                    <v-list-item-title>About / Help</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
 
             <v-list-item link>
-                <v-list-item-icon>
-                    <v-icon>mdi-undo</v-icon>
-                </v-list-item-icon>
+
                 <v-list-item-content>
                     <v-list-item-title>Undo</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
 
             <v-list-item link>
-                <v-list-item-icon>
-                    <v-icon>mdi-redo</v-icon>
-                </v-list-item-icon>
+
                 <v-list-item-content>
                     <v-list-item-title>Redo</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
 
             <v-list-item link>
-                <v-list-item-icon>
-                    <v-icon>mdi-puzzle</v-icon>
-                </v-list-item-icon>
+
                 <v-list-item-content>
-                    <v-list-item-title>Original</v-list-item-title>
+                    <v-list-item-title>Go to Original Game</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
 
@@ -86,30 +78,55 @@
             tile
             color="deep-purple accent-3"
             group
+            v-model="icon"
+            borderless
             >
                 <v-btn v-on:click="buy" value="left">
-                    Buy
+
+
+                    <v-icon left>
+                        mdi-currency-usd
+                    </v-icon>
+                    <span class="hidden-sm-and-down">Buy</span>
                 </v-btn>
 
                 <v-btn v-on:click="combine" value="center">
-                    Combine
+                    <v-icon left>
+                        mdi-vector-combine
+                    </v-icon>
+                    <span class="hidden-sm-and-down">Combine</span>
                 </v-btn>
 
                 <v-btn v-on:click="move" value="center">
-                    Move
+                    <v-icon left>
+                        mdi-arrow-right
+                    </v-icon>
+                    <span class="hidden-sm-and-down">Move</span>
                 </v-btn>
 
                 <v-btn v-on:click="castle" value="center">
-                    Castle
+                    <v-icon left>
+                        mdi-castle
+                    </v-icon>
+                    <span class="hidden-sm-and-down">Castle</span>
                 </v-btn>
                 <v-btn v-on:click="balance" value="center">
-                    Balance
+                    <v-icon left>
+                        mdi-pig
+                    </v-icon>
+                    <span class="hidden-sm-and-down">Balance</span>
                 </v-btn>
                 <v-btn v-on:click="endturn" value="center">
-                    End Turn
+                    <v-icon left>
+                        mdi-clock
+                    </v-icon>
+                    <span class="hidden-sm-and-down">End Turn</span>
                 </v-btn>
                 <v-btn v-on:click="surrender" value="right">
-                    Surrender
+                    <v-icon left>
+                        mdi-exit-run
+                    </v-icon>
+                    <span class="hidden-sm-and-down">Surrender</span>
                 </v-btn>
             </v-btn-toggle>
         </v-col>
