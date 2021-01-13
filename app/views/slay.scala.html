@@ -130,19 +130,30 @@
                 </v-btn>
             </v-btn-toggle>
         </v-col>
-        <gamefield></gamefield>
-        <v-banner>
-            <span id="gameMsg">-</span> |
+        <v-banner two-line>
+            <v-avatar
+            slot="icon"
+            color="deep-purple accent-4"
+            size="40"
+            >
+                <v-icon
+                icon="mdi-gamepad-variant"
+                color="white"
+                >
+                    mdi-gamepad-variant
+                </v-icon>
+            </v-avatar>
+            <span id="gameMsg"></span>
             @if(ctrl.gameController.state == 1){
 
-                        <span id="playerturn gameMsg" >
-                            It is your turn @ctrl.getPlayerturn() !
-                        </span>
+                <span id="playerturn gameMsg" >
+                    It is your turn @ctrl.getPlayerturn() !
+                </span>
             }else{
 
-                        <span id="playerturn gameMsg" >
-                            It is your turn @ctrl.getPlayerturn() !
-                        </span>
+                <span id="playerturn gameMsg" >
+                    It is your turn @ctrl.getPlayerturn() !
+                </span>
             }
             <template v-slot:actions>
                 <v-btn
@@ -159,6 +170,8 @@
                 </v-btn>
             </template>
         </v-banner>
+        <gamefield></gamefield>
+
 
 
     </div>
