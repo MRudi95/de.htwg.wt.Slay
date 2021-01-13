@@ -133,18 +133,12 @@
                                 mdi-gamepad-variant
                             </v-icon>
                         </v-avatar>
+
                         <span id="gameMsg"></span>
-                        @if(ctrl.gameController.state == 1) {
+                        <span id="playerturn">
+                            It is your turn @ctrl.getPlayerturn() !
+                        </span>
 
-                            <span id="playerturn gameMsg" >
-                                It is your turn @ctrl.getPlayerturn() !
-                            </span>
-                        } else {
-
-                            <span id="playerturn gameMsg" >
-                                It is your turn @ctrl.getPlayerturn() !
-                            </span>
-                        }
                         <template v-slot:actions>
                             <v-btn text color="primary" id="coord0"></v-btn>
                             <v-btn text color="primary" id="coord1"></v-btn>

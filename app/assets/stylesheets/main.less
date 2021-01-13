@@ -107,13 +107,16 @@ h4{
 
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(16, auto);
+    grid-template-columns: repeat(16, 1fr);
+    width: 64vw;
 }
 
 .grid-item {
     background-color: rgba(255, 255, 255, 0.8);
     border: 1px solid #343a40;
     padding: 1rem;
+    width: 4vw;
+    min-width: 40px;
     font-size: 1rem;
     text-align: center;
 }

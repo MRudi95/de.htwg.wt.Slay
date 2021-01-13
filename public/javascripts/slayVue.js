@@ -207,7 +207,7 @@ Vue.component('gamefield', {
         <div class="grid-container">
             <div v-for="idx in colSize" class="grid-item c0" style="background: #343a40; color: #fff;">{{colIdx(idx)}}</div>
             <div v-for="(value, index) in grid" :id="index" :class="[playerClass(value.owner)]" class="clickable ">
-                <v-img max-width="80" :src="fieldImage(value.owner)" style="display: flex; align-items: center;">
+                <v-img max-width="4vw" min-width="40" :src="fieldImage(value.owner)" style="display: flex; align-items: center;">
                     <v-icon :color="gpColor(value.gamepiece, value.owner)" x-large style="display: flex; justify-content: center;">
                         {{gamepiece(value.gamepiece)}}
                     </v-icon>
