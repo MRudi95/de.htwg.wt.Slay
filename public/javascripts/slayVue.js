@@ -165,6 +165,12 @@ $(document).ready(function (){
             surrender: function (){
                 if (confirm('Are you sure you want to surrender?')) command('/ff20')
             },
+        },
+        theme: {dark:true},
+        data() {
+            return {
+                drawer: true
+            };
         }
     })
 

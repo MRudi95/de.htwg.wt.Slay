@@ -3,27 +3,38 @@
 @main(title="Slay Game", style="main"){
 
 <template>
-    <v-app id="inspire">
+    <v-app id="slay">
+        <v-app-bar app clipped-left >
+            <v-app-bar-nav-icon @@click="drawer = !drawer"></v-app-bar-nav-icon>
+            <v-spacer></v-spacer>
+            <v-toolbar-title><b>Slay</b> - G19</v-toolbar-title>
+        </v-app-bar>
         <v-navigation-drawer
         v-model="drawer"
-        app dark
+            clipped
+        app
         >
-            <v-list-item>
-                <v-list-item-content>
-                    <v-list-item-title class="title">
-                        Slay-Game
-                    </v-list-item-title>
-                    <v-list-item-subtitle>
-                       Optionen und About
-                    </v-list-item-subtitle>
-                </v-list-item-content>
-            </v-list-item>
+
+            <template v-slot:prepend>
+                <v-list-item two-line>
+                    <v-list-item-avatar>
+                        <img src="https://www.designtagebuch.de/wp-content/uploads/mediathek//2016/12/htwg_markenzeichen-1.png">
+                    </v-list-item-avatar>
+
+                    <v-list-item-content>
+                        <v-list-item-title>HTWG</v-list-item-title>
+                        <v-list-item-subtitle>Web Technologies</v-list-item-subtitle>
+                    </v-list-item-content>
+                </v-list-item>
+            </template>
+
             <v-divider></v-divider>
+
 
 
             <v-list-item link to="">
                 <v-list-item-icon>
-                    <v-icon>mdi-image</v-icon>
+                    <v-icon>mdi-help</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                     <v-list-item-title>About</v-list-item-title>
@@ -50,96 +61,20 @@
 
             <v-list-item link>
                 <v-list-item-icon>
-                    <v-icon>mdi-view-dashboard</v-icon>
+                    <v-icon>mdi-puzzle</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                     <v-list-item-title>Original</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
 
-            <v-list-item link>
-                <v-list-item-icon>
-                    <v-icon>mdi-view-dashboard</v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                    <v-list-item-title to="https://github.com/MRudi95/de.htwg.wt.Slay">Github</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-
+    <v-divider></v-divider>
 
         </v-navigation-drawer>
-        <v-app-bar app dark>
-            <v-app-bar-nav-icon ></v-app-bar-nav-icon>
 
-            <v-toolbar-title>HTWG &copy; 2020</v-toolbar-title>
-        </v-app-bar>
-    <v-app-bar dark flat>
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/about">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/undo">Undo</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/redo">Redo</a>
-                </li>
-                <li>
-                    <a class="nav-link" href="http://www.windowsgames.co.uk/slay.html">Original</a>
-                </li>
-                <li>
-                    <a class="nav-link" href="https://github.com/MRudi95/de.htwg.wt.Slay">GitHub</a>
-                </li>
-            </ul>
-        </div>
-    </v-app-bar>
 
         <v-main>
     <div id="app" class="pagecontainer">
-
-        <gamefield></gamefield>
-
-        <div class="d-flex justify-content-between p-3">
-            <div class="col-1">
-                <v-btn
-                elevation="2"
-                >
-                    <div id="coord0"></div>
-                </v-btn>
-            </div>
-            <div class="col-1">
-                <v-btn
-                elevation="2"
-                >
-                <div id="coord1"></div>
-                </v-btn>
-            </div>
-            <div class="col-7"></div>
-            @if(ctrl.gameController.state == 1){
-                <v-card
-                elevation="2"
-                >
-                    <v-card-subtitle>
-                <div id="playerturn" >
-                    It is your turn @ctrl.getPlayerturn() !
-                </div></v-card-subtitle>
-                </v-card>
-            }else{
-                <v-card
-                elevation="2"
-                >
-                    <v-card-subtitle>
-                <div id="playerturn" >
-                    It is your turn @ctrl.getPlayerturn() !
-                </div></v-card-subtitle>
-                </v-card>
-            }
-        </div>
         <v-col
         cols="12"
         class="py-2"
@@ -178,18 +113,35 @@
                 </v-btn>
             </v-btn-toggle>
         </v-col>
-        <!--
-        <div id="gameBtnPanel">
-            <div class="col-4"></div>
-            <button v-on:click="buy" class="gameButton">Buy</button>
-            <button v-on:click="combine" class="gameButton">Combine</button>
-            <button v-on:click="move" class="gameButton">Move</button>
-            <button v-on:click="castle" class="gameButton">Castle</button>
-            <button v-on:click="balance" class="gameButton">Balance</button>
-            <button v-on:click="endturn" class="gameButton">End Turn</button>
-            <button v-on:click="surrender" class="gameButton">Surrender</button>
-        </div>
-        -->
+        <gamefield></gamefield>
+        <v-banner>
+            <span id="gameMsg">-</span> |
+            @if(ctrl.gameController.state == 1){
+
+                        <span id="playerturn gameMsg" >
+                            It is your turn @ctrl.getPlayerturn() !
+                        </span>
+            }else{
+
+                        <span id="playerturn gameMsg" >
+                            It is your turn @ctrl.getPlayerturn() !
+                        </span>
+            }
+            <template v-slot:actions>
+                <v-btn
+                text
+                color="primary"
+                >
+                    <div id="coord0">-</div>
+                </v-btn>
+                <v-btn
+                text
+                color="primary"
+                >
+                    <div id="coord1">-</div>
+                </v-btn>
+            </template>
+        </v-banner>
 
 
     </div>
