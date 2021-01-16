@@ -1,7 +1,9 @@
+const serverURL = "localhost:9000";
+
 // websocket-stuff
 function connectWebSocket() {
     console.log("Connecting to Websocket");
-    let websocket = new WebSocket("ws://localhost:9000/websocket");
+    let websocket = new WebSocket("ws://" + serverURL + "/websocket");
     console.log("Connected to Websocket");
 
     websocket.onopen = function(event) {
@@ -19,7 +21,7 @@ function connectWebSocket() {
 
     websocket.onmessage = function (e) {
         if (typeof e.data === "string") {
-            //console.log('String message received: ' + e.data);
+            // console.log('String message received: ' + e.data);
             $.each(JSON.parse(e.data), function(key, val){
                 if(key === "fields"){
                     //update fields
@@ -27,13 +29,10 @@ function connectWebSocket() {
                 } else if(key === "message"){
                     //error message
                     document.getElementById("gameMsg").innerText = val;
-                } else if(key === "end"){
-                    document.getElementById("playerturn").innerText = "It is your turn " + val + "!";
-                    if(val === "Player 1"){
-                        //document.getElementById("playerturn").className = "alert alert-warning col-md-auto";
-                    } else {
-                       // document.getElementById("playerturn").className = "alert alert-success col-md-auto";
-                    }
+                } else if(key === "player"){
+                    //next player
+                    document.getElementById("playername").innerText = "It is your turn " + val.playername + "!";
+                    document.getElementById("playercolor").className = "v-avatar accent-4 " + val.playercolor;
                 }
             });
         }
@@ -43,16 +42,21 @@ function connectWebSocket() {
 let colSize;
 let rowSize;
 let firstGrid;
+let firstPlayer;
+let firstPlayerColor;
 function loadJSON(){
     $.ajax({
         method: "GET",
-        url: "/json",
+        url: "http://" + serverURL + "/json",
         dataType: "json",
         async: false,
         success: function(result){
+            // console.log("get /json:" + JSON.stringify(result))
             colSize = result.colIdx;
             rowSize = result.rowIdx;
             firstGrid = result.fields;
+            firstPlayer = result.player.playername;
+            firstPlayerColor = result.player.playercolor;
         }
     });
 }
@@ -102,7 +106,7 @@ function gamepieceColor(gamepiece, owner, setup=false){
 }
 
 function command(commandstring){
-    $.ajax(commandstring);
+    $.ajax("http://" + serverURL + commandstring);
 }
 
 
@@ -191,6 +195,8 @@ $(document).ready(function (){
         }
     })
 
+    document.getElementById("playername").innerText = "It is your turn " + firstPlayer + "!";
+    document.getElementById("playercolor").className = "v-avatar accent-4 " + firstPlayerColor;
 
     //websocket
     connectWebSocket();

@@ -2,25 +2,35 @@ package controllers
 
 import javax.inject._
 import play.api.mvc._
-import de.htwg.se.slay.Slay
+import de.htwg.se.slay.{Slay, SlayModule}
 import de.htwg.se.slay.controller.controllerComponent._
 import de.htwg.se.slay.model.fileIOComponent.fileIoJSONimpl.FileIO
 import de.htwg.se.slay.util.Observer
-import play.api.libs.json.Json
+import play.api.libs.json.{JsString, JsValue, Json}
 import play.api.libs.streams.ActorFlow
 import akka.actor._
 import akka.stream.Materializer
+import com.google.inject.{Guice, Injector}
+import de.htwg.se.slay.aview.TextUI
 
 @Singleton
-class SlayController @Inject()(cc: ControllerComponents) (implicit system: ActorSystem, mat: Materializer) extends AbstractController(cc) with Observer {
-  val gameController = Slay.controller
-  gameController.add(this)
-  //quick fix for having to click "end turn" twice at the beginning
-  Slay.tui.processInput("end")
+class SlayController @Inject()(cc: ControllerComponents) (implicit system: ActorSystem, mat: Materializer) extends AbstractController(cc){
+  val injector: Injector = Guice.createInjector(new SlayModule)
+  val (gameController, tui) = newGameInstance()
 
   var message :String = _
   var updateEvent: Event = _
   val jsonIO = new FileIO
+
+  def newGameInstance():(ControllerInterface, TextUI) = {
+    val controller: ControllerInterface = injector.getInstance(classOf[ControllerInterface])
+    val tui = new TextUI(controller)
+
+    controller.createGrid("Map1")
+    controller.nextturn()
+
+    (controller, tui)
+  }
 
   def slayAsText = {
     views.html.slay(this, message)
@@ -52,65 +62,79 @@ class SlayController @Inject()(cc: ControllerComponents) (implicit system: Actor
 
   //commands
   def buy(coord: String) = Action {
-    Slay.tui.processInput("buy " + coord)
+    tui.processInput("buy " + coord)
     jsonUpdate
   }
 
   def mov(coord1: String, coord2: String) = Action{
-    Slay.tui.processInput("mov " + coord1 + " " + coord2)
+    tui.processInput("mov " + coord1 + " " + coord2)
     jsonUpdate
   }
 
   def cmb(coord1: String, coord2: String) = Action{
-    Slay.tui.processInput("cmb " + coord1 + " " + coord2)
+    tui.processInput("cmb " + coord1 + " " + coord2)
     jsonUpdate
   }
 
   def plc(coord: String) = Action {
-    Slay.tui.processInput("plc " + coord)
+    tui.processInput("plc " + coord)
     jsonUpdate
   }
 
   def bal(coord: String) = Action {
-    Slay.tui.processInput("bal " + coord)
+    tui.processInput("bal " + coord)
     jsonUpdate
   }
 
   def undo() = Action {
-    Slay.tui.processInput("undo")
+    tui.processInput("undo")
     Ok(slayAsText)
     //brauch noch javascript wie die anderen
   }
 
   def redo() = Action {
-    Slay.tui.processInput("redo")
+    tui.processInput("redo")
     Ok(slayAsText)
     //brauch noch javascript wie die anderen
   }
 
   def end() = Action {
-    Slay.tui.processInput("end")
-    Ok(Json.obj(
-      "end" -> getPlayerturn(),
+    tui.processInput("end")
+    Ok(Json.obj("player" -> Json.obj(
+        "playername" -> getPlayerturn(),
+        "playercolor" -> getPlayercolor(),
+      )
     ))
   }
 
   def surrender() = Action {
-    Slay.tui.processInput("ff20")
+    tui.processInput("ff20")
     Ok(slayAsText)
   }
 
   def command(command: String) = Action{
-    Slay.tui.processInput(command)
+    tui.processInput(command)
     Ok(slayAsText)
   }
 
   def getJson() = Action{
-    Ok(jsonIO.gridToJson(gameController.grid, gameController.players))
+    var json = jsonIO.gridToJson(gameController.grid, gameController.players)
+    json = json.+(("player", Json.obj(
+      "playername" -> getPlayerturn(),
+      "playercolor" -> getPlayercolor(),
+    )))
+    Ok(json)
   }
 
   def getPlayerturn() = {
     gameController.players(gameController.state).name
+  }
+  def getPlayercolor()={
+    gameController.state match {
+      case 1 => "yellow"
+      case 2 => "green"
+      case _ => ""
+    }
   }
 
 
@@ -134,6 +158,7 @@ class SlayController @Inject()(cc: ControllerComponents) (implicit system: Actor
       case msg: String =>
         out ! ("I received your message: " + msg)
     }
+
     val jsonIO = new FileIO
     override def update(e: Event): Boolean = {
       updateEvent = e
@@ -153,37 +178,13 @@ class SlayController @Inject()(cc: ControllerComponents) (implicit system: Actor
         case _: MovedErrorEvent => out ! Json.obj( "message" -> "This Unit has already moved this turn!").toString(); true
         case _: UndoErrorEvent => out ! Json.obj( "message" -> "Nothing to undo!").toString(); true
         case _: RedoErrorEvent => out ! Json.obj( "message" -> "Nothing to redo!").toString(); true
-        case _: PlayerEvent => out ! Json.obj("end" -> getPlayerturn()).toString(); true
+        case _: PlayerEvent =>
+          out ! Json.obj("player" -> Json.obj(
+          "playername" -> getPlayerturn(),
+          "playercolor" -> getPlayercolor(),
+          )).toString(); true
         case _ => false
       }
-    }
-  }
-
-
-  override def update(e: Event): Boolean = {
-    updateEvent = e
-    e match{
-      case _: MoneyErrorEvent =>
-        message = "Not enough Money!"; true
-      case b: BalanceEvent =>
-        message = "Balance: " + b.bal + " Income: " + b.inc + " ArmyCost: " + b.cost; true
-      case _: OwnerErrorEvent =>
-        message = "You are not the Owner of this!"; true
-      case _: GamePieceErrorEvent =>
-        message = "There already is a GamePiece there!"; true
-      case _: CombineErrorEvent =>
-        message = "Can't combine those Units!"; true
-      case m: MoveErrorEvent =>
-        message = "Can't move there! " + m.reason; true
-      case _: MovableErrorEvent =>
-        message = "This Unit is not movable!"; true
-      case _: MovedErrorEvent =>
-        message = "This Unit has already moved this turn!"; true
-      case _: UndoErrorEvent =>
-        message = "Nothing to undo!"; true
-      case _: RedoErrorEvent =>
-        message = "Nothing to redo!"; true
-      case _ => false
     }
   }
 }

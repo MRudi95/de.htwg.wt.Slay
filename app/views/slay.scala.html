@@ -125,6 +125,7 @@
                         slot="icon"
                         color="deep-purple accent-4"
                         size="40"
+                        id="playercolor"
                         >
                             <v-icon
                             icon="mdi-gamepad-variant"
@@ -135,9 +136,7 @@
                         </v-avatar>
 
                         <span id="gameMsg"></span>
-                        <span id="playerturn">
-                            It is your turn @ctrl.getPlayerturn() !
-                        </span>
+                        <span id="playername"></span>
 
                         <template v-slot:actions>
                             <v-btn text color="primary" id="coord0"></v-btn>
