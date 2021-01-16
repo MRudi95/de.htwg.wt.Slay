@@ -11,8 +11,8 @@ function connectWebSocket() {
         websocket.send("Trying to connect to Server");
     }
 
-    websocket.onclose = function () {
-        console.log('Connection Closed!');
+    websocket.onclose = function (event) {
+        console.log('Connection Closed! ' + event.message);
     };
 
     websocket.onerror = function (error) {
@@ -63,23 +63,16 @@ function loadJSON(){
 
 const pieceMap = new Map([
     [' ', ' '],
-    ['T', 'mdi-pine-tree'], // <v-icon>mdi-pine-tree</v-icon>
-    ['C', 'mdi-home'], // <v-icon>mdi-home</v-icon>
-    ['B', 'mdi-castle'], // <v-icon>mdi-castle</v-icon>
-    ['G', 'mdi-grave-stone'], // <v-icon>mdi-grave-stone</v-icon>
-    ['1', 'mdi-account'], // <v-icon>mdi-account</v-icon>
-    ['2', 'mdi-account-multiple'], // <v-icon>mdi-account-multiple</v-icon>
-    ['3', 'mdi-account-group'], // <v-icon>mdi-account-group</v-icon>
-    ['4', 'mdi-alien'], // <v-icon>mdi-alien</v-icon>
-    // [' ', ' '],
-    // ['T', '<i class="fas fa-tree"></i>'], // <v-icon>mdi-pine-tree</v-icon>
-    // ['C', '<i class="fas fa-home"></i>'], // <v-icon>mdi-home</v-icon>
-    // ['B', '<img src="/assets/images/castle.png">'], // <v-icon>mdi-castle</v-icon>
-    // ['G', '<img src="/assets/images/grave.png">'], // <v-icon>mdi-grave-stone</v-icon>
-    // ['1', '<img src="/assets/images/peasant.gif">'], // <v-icon>mdi-account</v-icon>
-    // ['2', '<img src="/assets/images/spearman.gif">'], // <v-icon>mdi-account-multiple</v-icon>
-    // ['3', '<img src="/assets/images/knight.gif">'], // <v-icon>mdi-account-group</v-icon>
-    // ['4', '<img src="/assets/images/baron.gif">'], // <v-icon>mdi-alien</v-icon>
+    ['T1', 'mdi-palm-tree'],
+    ['T2', 'mdi-pine-tree'],
+    // ['T', 'mdi-pine-tree'],
+    ['C', 'mdi-home'],
+    ['B', 'mdi-castle'],
+    ['G', 'mdi-grave-stone'],
+    ['1', 'mdi-account'],
+    ['2', 'mdi-account-multiple'],
+    ['3', 'mdi-account-group'],
+    ['4', 'mdi-alien'],
 ]);
 const fieldMap = new Map([
     [2, 'https://cdn.discordapp.com/attachments/766231770445512715/786534037024014336/ryan-o-connor-tileable-grass.png'],
@@ -89,19 +82,62 @@ const fieldMap = new Map([
 function updateGrid(grid){
     for(i in grid){
         document.getElementById(i.toString()).className = "clickable c" + grid[i].owner // grid-item
-        //document.getElementById(i.toString()).innerHTML = pieceMap.get(grid[i].gamepiece)
-        //document.getElementById(i.toString()).children[0].className = "v-icon notranslate material-icons theme--light mdi " + pieceMap.get(grid[i].gamepiece)
-        document.getElementById(i.toString()).children[0].children[2].children[0].className = "v-icon notranslate material-icons theme--light mdi " + pieceMap.get(grid[i].gamepiece) + " " + gamepieceColor(grid[i].gamepiece, grid[i].owner)
+        document.getElementById(i.toString()).children[0].children[2].children[0].className = "v-icon notranslate material-icons theme--light mdi " + gamepieceIcon(grid[i].gamepiece, grid[i].owner) + " " + gamepieceColor(grid[i])
         document.getElementById(i.toString()).children[0].children[1].style.backgroundImage = "url(" + fieldMap.get(grid[i].owner) + ")"
-        //document.getElementById(i.toString()).children[1].src = fieldMap.get(grid[i].owner)
     }
 }
 
-function gamepieceColor(gamepiece, owner, setup=false){
+function gamepieceIcon(gamepiece, owner){
+    if(gamepiece === 'T'){
+        return pieceMap.get(gamepiece + owner);
+    } else {
+        return pieceMap.get(gamepiece);
+    }
+}
+
+function gamepieceColor(field, setup=false){
+    let color = "blue-grey lighten-4"; //default
+
+    if(field.owner === 1){ //yellow player
+        //tree
+        if(field.gamepiece === "T"){
+            color = "green darken-4"
+        }
+        //unit gamepiece
+        if(field.gamepiece === '1' || field.gamepiece === '2' || field.gamepiece === '3' || field.gamepiece === '4'){
+            if(!field.hasMoved){
+                color = "amber darken-4"
+            }else{
+                color = "grey darken-1"
+            }
+        }
+        //capital, castle, grave
+        if(field.gamepiece === "C" || field.gamepiece === "B" || field.gamepiece === "G"){
+            color = "brown darken-2"
+        }
+    }else if (field.owner === 2){ //green player
+        //tree
+        if(field.gamepiece === "T"){
+            color = "green darken-1"
+        }
+        //unit gamepiece
+        if(field.gamepiece === '1' || field.gamepiece === '2' || field.gamepiece === '3' || field.gamepiece === '4'){
+            if(!field.hasMoved){
+                color = "light-green lighten-3"
+            }else{
+                color = "grey darken-1"
+            }
+        }
+        //capital, castle, grave
+        if(field.gamepiece === "C" || field.gamepiece === "B" || field.gamepiece === "G"){
+            color = "blue-grey lighten-2"
+        }
+    }
+
     if(setup) {
-        return "blue-grey lighten-4"
+        return color
     }else{
-        return "blue-grey--text text--lighten-4" //.replace(" ", "--text text--")
+        return color.replace(" ", "--text text--")
     }
 }
 
@@ -214,8 +250,8 @@ Vue.component('gamefield', {
             <div v-for="idx in colSize" class="grid-item c0" style="background: #343a40; color: #fff;">{{colIdx(idx)}}</div>
             <div v-for="(value, index) in grid" :id="index" :class="[playerClass(value.owner)]" class="clickable ">
                 <v-img max-width="4vw" min-width="40" :src="fieldImage(value.owner)" style="display: flex; align-items: center;">
-                    <v-icon :color="gpColor(value.gamepiece, value.owner)" x-large style="display: flex; justify-content: center;">
-                        {{gamepiece(value.gamepiece)}}
+                    <v-icon :color="gpColor(value)" x-large style="display: flex; justify-content: center;">
+                        {{gp(value.gamepiece, value.owner)}}
                     </v-icon>
                 </v-img>
             </div>
@@ -231,11 +267,11 @@ Vue.component('gamefield', {
             playerClass: function (owner){
                 return 'c' + owner;
             },
-            gamepiece: function (gp){
-                return pieceMap.get(gp);
+            gp: function (gp, owner){
+                return gamepieceIcon(gp, owner)
             },
-            gpColor: function(gp, owner){
-                return gamepieceColor(gp, owner, true);
+            gpColor: function(field){
+                return gamepieceColor(field, true);
             },
             fieldImage: function (field){
                 return fieldMap.get(field);

@@ -29,17 +29,13 @@ class SlayController @Inject()(cc: ControllerComponents) (implicit system: Actor
   }
 
 
-  //wird noch wegrationalisiert
-  def slayAsText = {
-    views.html.slay(this, "")
-  }
-
+  //wird noch wegrationalisiert durch gekapseltes frontend
   def about = Action {
     Ok(views.html.about())
   }
 
   def slay = Action {
-    Ok(slayAsText)
+    Ok(views.html.slay(this, ""))
   }
   // /wird noch wegrationalisiert
 
