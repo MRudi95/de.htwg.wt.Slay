@@ -108,7 +108,7 @@ function gamepieceColor(field, setup=false){
             if(!field.hasMoved){
                 color = "amber darken-4"
             }else{
-                color = "grey darken-1"
+                color = "amber darken-1"
             }
         }
         //capital, castle, grave
@@ -125,7 +125,7 @@ function gamepieceColor(field, setup=false){
             if(!field.hasMoved){
                 color = "light-green lighten-3"
             }else{
-                color = "grey darken-1"
+                color = "light-green darken-4"
             }
         }
         //capital, castle, grave
