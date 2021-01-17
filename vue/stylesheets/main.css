@@ -1,0 +1,155 @@
+body{
+    font: 75% georgia, "Comic Sans MS";
+    background: #262626;
+}
+
+.pagecontainer {
+    margin: 2rem auto;
+    width: 1280px;
+}
+
+@media only screen and (max-width:620px) {
+    /* For mobile phones: */
+    .pagecontainer {
+        width: 100%;
+        padding: 1rem;
+    }
+}
+
+@media only screen and (max-width:1200px) {
+    /* For mobile phones: */
+    .pagecontainer {
+        width: 100%;
+        padding: 1rem;
+    }
+}
+
+.inputForm{
+    width: 50%;
+    margin-bottom: 1em;
+    margin-top: 1em;
+}
+
+.gameTable{
+    background: black;
+}
+
+.gameIndexes{
+    background: #696969;
+    color: white;
+    text-align: center;
+    font-size: 3em;
+}
+
+.gameLetterIndexes{
+    width: 100px;
+}
+
+.cellP0{
+    width: 5em;
+    height: 5em;
+    text-align: center;
+
+    background: #00ccff;
+}
+
+.cellP1{
+    width: 5em;
+    height: 5em;
+    text-align: center;
+
+    background: #ffff00;
+}
+
+.cellP2{
+    width: 5em;
+    height: 5em;
+    text-align: center;
+
+    background: #66ff66;
+}
+
+.aboutTable{
+    background: black;
+}
+
+.aboutCell{
+    background: #505050;
+    width: 55em;
+    color: white;
+    padding: 1em;
+}
+
+.aboutUnits{
+    margin-left: 20%;
+}
+
+h1{
+    text-align: center;
+    font-weight: bold;
+}
+
+h2{
+    text-align: center;
+}
+
+h4{
+    font-style: italic;
+    margin-left: 5%;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    width: 64vw;
+}
+
+.grid-item {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid #343a40;
+    padding: 1vw;
+    width: 4vw;
+    min-width: 40px;
+    text-align: center;
+}
+
+.grid-item .fas {
+    color: #333 !important;
+}
+div.c0 {
+    background-color: #00ccff;
+    color: #1e7b93;
+}
+
+div.c1 {
+    background-color: #ffff00;
+    color: #c6c638;
+}
+
+div.c2 {
+    background-color: #66ff66;
+    color: #2cb02c;
+}
+
+  .clickable:hover{
+      background-color: pink;
+  }
+
+.coordButton{
+    background-color: darkgray;
+    border-radius: 16px;
+    font-size: 28px;
+}
+
+#gameBtnPanel{
+    margin-bottom: 1em;
+    margin-left: 15%;
+}
+.gameButton{
+    background-color: lightgray;
+    border-radius: 8px;
+    font-size: 1.5em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
