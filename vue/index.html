@@ -1,7 +1,19 @@
-@(ctrl: SlayController, message: String)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <title>Slay</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+    <script src="js/jquery.js"> </script>
+    <script src="js/vue.js"> </script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+</head>
+<body>
 
-@main(title = "Slay Game", style = "main") {
-
+<div id="app">
     <template>
         <v-app id="slay">
             <v-app-bar app clipped-left >
@@ -58,18 +70,18 @@
             <v-main>
                 <div id="app" class="pagecontainer">
                     <v-col
-                    cols="12"
-                    class="py-2"
+                            cols="12"
+                            class="py-2"
                     >
 
 
                         <v-btn-toggle
-                        v-model="text"
-                        tile
-                        color="deep-purple accent-3"
-                        group
-                        v-model="icon"
-                        borderless
+                                v-model="text"
+                                tile
+                                color="deep-purple accent-3"
+                                group
+                                v-model="icon"
+                                borderless
                         >
                             <v-btn v-on:click="buy" value="left">
 
@@ -93,7 +105,7 @@
                                 </v-icon>
                                 <span class="hidden-sm-and-down">Move</span>
                             </v-btn>
-ey,
+                            ey,
                             <v-btn v-on:click="castle" value="center">
                                 <v-icon left>
                                     mdi-castle
@@ -122,14 +134,14 @@ ey,
                     </v-col>
                     <v-banner two-line>
                         <v-avatar
-                        slot="icon"
-                        color="deep-purple accent-4"
-                        size="40"
-                        id="playercolor"
+                                slot="icon"
+                                color="deep-purple accent-4"
+                                size="40"
+                                id="playercolor"
                         >
                             <v-icon
-                            icon="mdi-gamepad-variant"
-                            color="white"
+                                    icon="mdi-gamepad-variant"
+                                    color="white"
                             >
                                 mdi-gamepad-variant
                             </v-icon>
@@ -150,6 +162,9 @@ ey,
             </v-main>
         </v-app>
     </template>
-}
-
-
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+<script src="js/slay.js"> </script>
+</body>
+</html>
